@@ -52,7 +52,6 @@ namespace TheLastJumper
                 hardware.ClearScreen();
 
                 // Draw sprites
-                
                 hardware.DrawSprite(background, 0, 0, 0, 0, 
                     GameController.SCREEN_WIDTH, GameController.SCREEN_HEIGHT);
 
@@ -89,7 +88,7 @@ namespace TheLastJumper
                 character.MoveCharacter();
 
                 // Collisions
-                foreach(Block b in level.blocks)
+                foreach (Block b in level.blocks)
                 {
                     if (character.CollidesWith(b.X, b.Y, Block.SPRITE_WIDTH,
                         Block.SPRITE_HEIGHT))

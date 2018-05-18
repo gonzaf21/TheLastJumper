@@ -27,7 +27,8 @@ namespace TheLastJumper
             Y = y;
         }
 
-        public bool CollidesWith(float x, float y, short width, short height)
+        public virtual bool CollidesWith(float x, float y, short width, 
+            short height)
         {
             return (X + HitboxWidth >= x && X <= x + width &&
                 Y + HitboxHeight >= y && Y <= y + height);

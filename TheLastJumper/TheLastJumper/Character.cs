@@ -172,5 +172,13 @@ namespace TheLastJumper
             if (resetPressed)
                 this.MoveTo(50, 536);
         }
+
+        // Method overriden to use the Speed of the character.
+        public override bool CollidesWith(float x, float y, short width, 
+            short height)
+        {
+            return ((X + SpeedX + HitboxWidth >= x && X <= x + width) 
+                && (Y + SpeedY + HitboxHeight >= y && Y <= y + height));
+        }
     }
 }
