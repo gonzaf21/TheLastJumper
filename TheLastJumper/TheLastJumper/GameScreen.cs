@@ -1,5 +1,8 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.05: Added a call to CollidesWith() to calculate collisions between 
+ * character and the blocks.
+ * 
  * V0.03: Some changes to test the loading of levels and using the blocks list
  * from levels, as well as setting the X and Y of the level to the player as 
  * a beginning of the scroll in the screen.
@@ -85,11 +88,21 @@ namespace TheLastJumper
                 // Move character
                 character.MoveCharacter();
 
+                // Collisions
+                foreach(Block b in level.blocks)
+                {
+                    if (character.CollidesWith(b.X, b.Y, Block.SPRITE_WIDTH,
+                        Block.SPRITE_HEIGHT))
+                        character.IsMoving = false;
+                    else
+                        character.IsMoving = true;
+                }
+
                 // Update delta time
                 hardware.UpdateDeltaTime(ref currentTime, ref previousTime);
 
-                //Sleep threading
-                //Thread.Sleep(10);
+                //Sleep threading (It was disabled meanwhile)
+                Thread.Sleep(4);
 
             } while (!hardware.IsKeyPressed(Hardware.KEY_ESC));
         }

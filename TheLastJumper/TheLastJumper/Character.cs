@@ -1,5 +1,8 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.05: Some changes to the jump phisics and added the sprite of the movement
+ * to the left of the character.
+ * 
  * V0.03: Little changes to the jump.
  * 
  * V0.02: Added gravity, speed in x-axis and y-axis and implementation of 
@@ -27,8 +30,6 @@ namespace TheLastJumper
         public float SpeedX { get; set; }
         public float SpeedY { get; set; }
 
-        protected short charWidth;
-        protected short charHeight;
         protected Hardware hardware;
         
         public Character(Hardware hardware)
@@ -41,16 +42,16 @@ namespace TheLastJumper
             IsJumping = false;
             IsOver = false;
             IsMoving = true;
-            charWidth = 40;
-            charHeight = 40;
+            HitboxWidth = 40;
+            HitboxHeight = 40;
             SpeedX = 0;
             SpeedY = 0;
 
             // Setting the appropiate sprites
             SpriteXCoordinates[(int)MovableSprite.SpriteMovement.LEFT] =
-                new int[] { 256, 320, 384, 448, 0, 64, 128, 192 };
+                new int[] { 0, 64, 128, 192, 256, 320, 384, 448 };
             SpriteYCoordinates[(int)MovableSprite.SpriteMovement.LEFT] =
-                new int[] { 0, 0, 0, 0, 64, 64, 64, 64 };
+                new int[] { 576, 576, 576, 576, 576, 576, 576, 576 };
 
             SpriteXCoordinates[(int)MovableSprite.SpriteMovement.UP] =
                 new int[] { 128, 192, 256, 320, 384, 448, 0, 64 };
@@ -77,12 +78,13 @@ namespace TheLastJumper
 
         public void MoveCharacter()
         {
-            bool left = hardware.IsKeyPressed(Hardware.KEY_LEFT);
-            bool right = hardware.IsKeyPressed(Hardware.KEY_RIGHT);
-            bool up = hardware.IsKeyPressed(Hardware.KEY_SPACE);
-            bool reset = hardware.IsKeyPressed(Hardware.KEY_SHIFT);
+            bool leftPressed = hardware.IsKeyPressed(Hardware.KEY_LEFT);
+            bool rightPressed = hardware.IsKeyPressed(Hardware.KEY_RIGHT);
+            bool upPressed = hardware.IsKeyPressed(Hardware.KEY_SPACE);
+            bool resetPressed = hardware.IsKeyPressed(Hardware.KEY_SHIFT);
             float gravity = 1.8f;
 
+            // Jumping calculations
             if (IsJumping)
             {
                 this.Animate(MovableSprite.SpriteMovement.UP);
@@ -90,6 +92,17 @@ namespace TheLastJumper
                 {
                     SpeedY += -gravity * (hardware.DeltaTime / 10);
                     this.Y += SpeedY;
+
+                    if (rightPressed)
+                    {
+                        SpeedX += STEP_LENGTH * (hardware.DeltaTime / 30);
+                        this.X += SpeedX;
+                    }
+                    else if (leftPressed)
+                    {
+                        SpeedX += STEP_LENGTH * (hardware.DeltaTime / 30);
+                        this.X -= SpeedX;
+                    }
                 }
                 else
                 {
@@ -98,25 +111,42 @@ namespace TheLastJumper
                 }
             }
 
-            if(IsFalling)
+            // Falling calculations
+            if (IsFalling)
             {
                 this.Animate(MovableSprite.SpriteMovement.DOWN);
                 SpeedY += STEP_LENGTH * (hardware.DeltaTime / 10);
-                if (this.Y + SpeedY < 600 - SPRITE_HEIGHT)
+                if (this.Y < GameController.SCREEN_HEIGHT - SPRITE_HEIGHT)
                 {
                     this.Y += SpeedY;
+                    if (rightPressed)
+                    {
+                        SpeedX += STEP_LENGTH * (hardware.DeltaTime / 30);
+                        this.X += SpeedX;
+                    }
+                    else if (leftPressed)
+                    {
+                        SpeedX += STEP_LENGTH * (hardware.DeltaTime / 30);
+                        this.X -= SpeedX;
+                    }
                 }
-                else
+                else if (this.Y + SPRITE_HEIGHT >= 
+                    GameController.SCREEN_HEIGHT)
                 {
                     IsFalling = false;
                     SpeedY = 0;
+                    SpeedX = 0;
+                    this.MoveTo(this.X,
+                        GameController.SCREEN_HEIGHT - SPRITE_HEIGHT);
                 }
             }
 
-            if (up && !IsJumping)
+            // Checking jump
+            if (upPressed && !IsJumping)
                 IsJumping = true;
 
-            if(left && IsMoving)
+            // Left movement
+            if (leftPressed && IsMoving)
             {
                 this.Animate(MovableSprite.SpriteMovement.LEFT);
                 SpeedX = STEP_LENGTH * (hardware.DeltaTime / 30);
@@ -126,18 +156,20 @@ namespace TheLastJumper
                 }
             }
 
-            if (right && IsMoving)
+            // Right movement
+            if (rightPressed && IsMoving)
             {
                 this.Animate(MovableSprite.SpriteMovement.RIGHT);
                 SpeedX = STEP_LENGTH * (hardware.DeltaTime / 30);
-                if (this.X + SpeedX < 800 - charWidth)
+                if (this.X + SpeedX < 800 - HitboxWidth)
                 {
                     this.X += SpeedX;
                 }
             }
 
-            // To reset the position of the player while testing the movement
-            if (reset)
+            // To reset the position of the player  to a visible point of the
+            // screen while testing the movement.
+            if (resetPressed)
                 this.MoveTo(50, 536);
         }
     }
