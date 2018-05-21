@@ -1,5 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.06: Adding the list of the enemies for the upcoming versions.
+ * 
  * V0.03: Reading from a file and setting the different elements of the level 
  * based on this.
  * 
@@ -22,11 +24,12 @@ namespace TheLastJumper
         public short YStart { get; set; }
         public short XEnd { get; set; }
         public short YEnd { get; set; }
-        public List<Block> blocks { get; set; }
+        public List<Block> Blocks { get; set; }
+        public List<Enemy> Enemies { get; set; }
 
         public Level(string levelFile)
         {
-            blocks = new List<Block>();
+            Blocks = new List<Block>();
             XMap = 0;
             YMap = 0;
             LoadLevel(levelFile);
@@ -58,7 +61,7 @@ namespace TheLastJumper
                             {
                                 if (elements[i] == "B")
                                 {
-                                    blocks.Add(
+                                    Blocks.Add(
                                         new Block(i * Block.SPRITE_WIDTH,
                                         numHeight * Block.SPRITE_HEIGHT, 0));
                                 }
@@ -104,6 +107,7 @@ namespace TheLastJumper
                 }
                 catch (Exception e)
                 {
+                    // A log file will be used in the end
                     Console.WriteLine("My bad! An error ocurred --> " + 
                         e.Message);
                 }

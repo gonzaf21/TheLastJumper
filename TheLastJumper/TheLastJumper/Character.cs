@@ -201,22 +201,21 @@ namespace TheLastJumper
                 }
             }
 
-            // To reset the position of the player  to a visible point of the
-            // screen while testing the movement.
+            // To reset the position of the player to the starting point of the
+            // level.
             if (resetPressed)
-                this.MoveTo(50, 536);
+                this.MoveTo(Level.XStart, Level.YStart);
         }
 
         // Method that calculates the different collisions of the character.
         public void CollidesWith(float x, float y, short width, 
             short height)
         {
-            if (((short)(X) + HitboxWidth >= (short)(x) && (short)(X) <= 
-                (short)(x) + width && (short)(Y) + HitboxWidth >= (short)(y) 
-                && (short)(Y) <= (short)(y) + height))
-            {
-                IsMovingLeft = false;
-            }
+             if ((X + HitboxWidth >= x && X <= x + width) && (Y + 
+                 HitboxWidth >= y && Y <= y + height))
+             {
+                 IsMovingLeft = false;
+             }
         }
     }
 }

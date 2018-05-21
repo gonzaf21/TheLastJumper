@@ -4,7 +4,8 @@
  * into the character's own object level so the level scroll calculations
  * can be done in its movemente method. Moved the character's own collision
  * method before the call of the movement method in order to fix the collision
- * detection.
+ * detection. Death addition and implementation of the transition between 
+ * levels.
  * 
  * V0.05: Added a call to CollidesWith() to calculate collisions between 
  * character and the blocks.
@@ -35,6 +36,7 @@ namespace TheLastJumper
         protected float previousTime;
         protected float currentTime;
         protected Level level;
+        protected bool gameOver;
 
         public GameScreen(Hardware hardware) : base(hardware)
         {
@@ -42,11 +44,12 @@ namespace TheLastJumper
             background = new Image("gameData/forestbg2x.png", 1280, 960);
             level = new Level("gameData/levels/leveltest.txt");
             character = new Character(hardware);
-            character.MoveTo(level.XStart, level.YStart);
             character.Level = level;
+            character.MoveTo(level.XStart, level.YStart);
             font40 = new Font("gameData/chargen.ttf", 40);
             font18 = new Font("gameData/chargen.ttf", 18);
             previousTime = 0;
+            gameOver = false;
         }
 
         public override void Show()
@@ -82,7 +85,7 @@ namespace TheLastJumper
                     153, font40);
 
                 // Drawing the blocks from the level
-                foreach(Block b in level.blocks)
+                foreach(Block b in level.Blocks)
                 {
                     hardware.DrawSprite(Block.SpriteBlock, (short)(b.X - 
                         level.XMap), (short)(b.Y - level.YMap), b.XToDraw, 
@@ -93,7 +96,7 @@ namespace TheLastJumper
                 hardware.UpdateScreen();
 
                 // Collisions
-                foreach (Block b in level.blocks)
+                foreach (Block b in level.Blocks)
                 {
                     character.CollidesWith(b.X, b.Y, Block.SPRITE_WIDTH,
                         Block.SPRITE_HEIGHT);
@@ -102,8 +105,28 @@ namespace TheLastJumper
                 // Move character
                 character.MoveCharacter();
 
-                // Set the value of the boolean of movement
-                character.IsMovingLeft = true;                
+                // Set the value of the booleans of movement after collisions
+                character.IsMovingLeft = true;
+                character.IsMovingRight = true;
+
+                // Character's death with a block while testing
+                if (character.X + character.HitboxWidth >= 780 &&
+                    character.Y >= 840)
+                {
+                    character.IsDead = true;
+                    hardware.WriteText("You are dead...", (short)character.X,
+                        (short)character.Y, 255, 0, 0, font40);
+                    Thread.Sleep(10);
+                    character.MoveTo(level.XStart, level.YStart);
+                }
+
+                // Transition between levels
+                if(character.X == level.XEnd && character.Y == level.YEnd)
+                {
+                    level = new Level("gameData/levels/levelTutorial.txt");
+                    character.Level = level;
+                    character.MoveTo(level.XStart, level.YStart);
+                }
 
                 // Update delta time
                 hardware.UpdateDeltaTime(ref currentTime, ref previousTime);

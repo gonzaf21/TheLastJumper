@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Block.cs" />
     <Compile Include="Character.cs" />
+    <Compile Include="Collectible.cs" />
     <Compile Include="CreditsScreen.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Font.cs" />
@@ -61,11 +62,13 @@
     <Compile Include="LoadScreen.cs" />
     <Compile Include="MenuScreen.cs" />
     <Compile Include="MovableSprite.cs" />
+    <Compile Include="MovableTrap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScoreboardScreen.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="StaticSprite.cs" />
+    <Compile Include="Trap.cs" />
     <Compile Include="WelcomeScreen.cs" />
   </ItemGroup>
   <ItemGroup>
