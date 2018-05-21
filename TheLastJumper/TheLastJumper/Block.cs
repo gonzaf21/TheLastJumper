@@ -14,7 +14,7 @@ namespace TheLastJumper
     {
         public const byte SPRITE_WIDTH = 60;
         public const byte SPRITE_HEIGHT = 60;
-        public static Image spriteBlock = 
+        public static Image SpriteBlock = 
             new Image("gameData/foresttiles01.png", 600, 600);
         public short XToDraw { get; set; }
         public short YToDraw { get; set; }

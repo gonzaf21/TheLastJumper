@@ -1,5 +1,11 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.06: Changes to fix the collision system. Addition to set the level
+ * into the character's own object level so the level scroll calculations
+ * can be done in its movemente method. Moved the character's own collision
+ * method before the call of the movement method in order to fix the collision
+ * detection.
+ * 
  * V0.05: Added a call to CollidesWith() to calculate collisions between 
  * character and the blocks.
  * 
@@ -37,6 +43,7 @@ namespace TheLastJumper
             level = new Level("gameData/levels/leveltest.txt");
             character = new Character(hardware);
             character.MoveTo(level.XStart, level.YStart);
+            character.Level = level;
             font40 = new Font("gameData/chargen.ttf", 40);
             font18 = new Font("gameData/chargen.ttf", 18);
             previousTime = 0;
@@ -52,11 +59,12 @@ namespace TheLastJumper
                 hardware.ClearScreen();
 
                 // Draw sprites
-                hardware.DrawSprite(background, 0, 0, 0, 0, 
+                hardware.DrawSprite(background, 0, 0, level.XMap, level.YMap, 
                     GameController.SCREEN_WIDTH, GameController.SCREEN_HEIGHT);
 
-                hardware.DrawSprite(character.SpriteSheet,(short)(character.X),
-                    (short)(character.Y), character.SpriteX, character.SpriteY, 
+                hardware.DrawSprite(character.SpriteSheet,(short)(character.X -
+                    level.XMap), (short)(character.Y - level.YMap), 
+                    character.SpriteX, character.SpriteY, 
                     Character.SPRITE_WIDTH, Character.SPRITE_HEIGHT);
 
                 // Testing the text and the drawing of blocks from an image
@@ -76,26 +84,26 @@ namespace TheLastJumper
                 // Drawing the blocks from the level
                 foreach(Block b in level.blocks)
                 {
-                    hardware.DrawSprite(Block.spriteBlock, (short)b.X, 
-                        (short)b.Y, b.XToDraw, b.YToDraw, Block.SPRITE_WIDTH, 
-                        Block.SPRITE_HEIGHT);
+                    hardware.DrawSprite(Block.SpriteBlock, (short)(b.X - 
+                        level.XMap), (short)(b.Y - level.YMap), b.XToDraw, 
+                        b.YToDraw, Block.SPRITE_WIDTH, Block.SPRITE_HEIGHT);
                 }
 
                 // Updating the screen
                 hardware.UpdateScreen();
 
-                // Move character
-                character.MoveCharacter();
-
                 // Collisions
                 foreach (Block b in level.blocks)
                 {
-                    if (character.CollidesWith(b.X, b.Y, Block.SPRITE_WIDTH,
-                        Block.SPRITE_HEIGHT))
-                        character.IsMoving = false;
-                    else
-                        character.IsMoving = true;
+                    character.CollidesWith(b.X, b.Y, Block.SPRITE_WIDTH,
+                        Block.SPRITE_HEIGHT);
                 }
+
+                // Move character
+                character.MoveCharacter();
+
+                // Set the value of the boolean of movement
+                character.IsMovingLeft = true;                
 
                 // Update delta time
                 hardware.UpdateDeltaTime(ref currentTime, ref previousTime);

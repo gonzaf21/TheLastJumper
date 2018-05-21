@@ -1,5 +1,8 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.06: Changed the value of the SPRITE_CHANGE const to display better
+ * all the animations.
+ * 
  * V0.01: First version of the MovableSprite class. This class is very similar
  * to the one used in another project but with some changes.
  */
@@ -9,7 +12,7 @@ namespace TheLastJumper
     class MovableSprite : Sprite
     {
         const byte MOVEMENTS = 8;
-        const byte SPRITE_CHANGE = 8;
+        const byte SPRITE_CHANGE = 1;
 
         public enum SpriteMovement { LEFT, UP, RIGHT, DOWN, STOOD };
         public SpriteMovement CurrentDirection { get; set; }
