@@ -1,5 +1,9 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0:07: Setting and drawing the traps from the level, minor corrections
+ * on death of the player to use it with these traps. Some minor changes and
+ * additions.
+ * 
  * V0.06: Changes to fix the collision system. Addition to set the level
  * into the character's own object level so the level scroll calculations
  * can be done in its movemente method. Moved the character's own collision
@@ -37,12 +41,14 @@ namespace TheLastJumper
         protected float currentTime;
         protected Level level;
         protected bool gameOver;
+        protected short numOfTheLevel;
 
         public GameScreen(Hardware hardware) : base(hardware)
         {
             // TODO: this is just for test purposes
-            background = new Image("gameData/forestbg2x.png", 1280, 960);
-            level = new Level("gameData/levels/leveltest.txt");
+            background = new Image("gameData/forestbg2x.png", 2553, 1487);
+            numOfTheLevel = 0;
+            level = new Level(Level.GetLevelName(numOfTheLevel));
             character = new Character(hardware);
             character.Level = level;
             character.MoveTo(level.XStart, level.YStart);
@@ -84,12 +90,19 @@ namespace TheLastJumper
                 hardware.WriteText("The Last Jumper", 250, 140, 153, 0, 
                     153, font40);
 
-                // Drawing the blocks from the level
+                // Drawing the blocks and traps from the level
                 foreach(Block b in level.Blocks)
                 {
                     hardware.DrawSprite(Block.SpriteBlock, (short)(b.X - 
                         level.XMap), (short)(b.Y - level.YMap), b.XToDraw, 
                         b.YToDraw, Block.SPRITE_WIDTH, Block.SPRITE_HEIGHT);
+                }
+
+                foreach(Trap t in level.Traps)
+                {
+                    hardware.DrawSprite(Trap.SpriteTrap, (short)(t.X - 
+                        level.XMap), (short)(t.Y - level.YMap), t.XToDraw,
+                        t.YToDraw, Trap.SPRITE_WIDTH, Trap.SPRITE_HEIGHT);
                 }
 
                 // Updating the screen
@@ -98,8 +111,15 @@ namespace TheLastJumper
                 // Collisions
                 foreach (Block b in level.Blocks)
                 {
-                    character.CollidesWith(b.X, b.Y, Block.SPRITE_WIDTH,
+                    character.CollidesWithMovement(b.X, b.Y, Block.SPRITE_WIDTH,
                         Block.SPRITE_HEIGHT);
+                }
+
+                foreach(Trap t in level.Traps)
+                {
+                    if (character.CollidesWith(t.X, t.Y - t.HitboxHeight,
+                        Trap.SPRITE_WIDTH, Trap.SPRITE_HEIGHT))
+                        character.IsDead = true;
                 }
 
                 // Move character
@@ -109,23 +129,43 @@ namespace TheLastJumper
                 character.IsMovingLeft = true;
                 character.IsMovingRight = true;
 
-                // Character's death with a block while testing
-                if (character.X + character.HitboxWidth >= 780 &&
-                    character.Y >= 840)
+                // Character's death
+                if (character.IsDead)
                 {
-                    character.IsDead = true;
                     hardware.WriteText("You are dead...", (short)character.X,
                         (short)character.Y, 255, 0, 0, font40);
-                    Thread.Sleep(10);
+                    Thread.Sleep(100);
+                    character.IsDead = false;
+                    character.IsFalling = false;
+                    character.IsJumping = false;
                     character.MoveTo(level.XStart, level.YStart);
+
+                    // Setting the scroll at the beginning of the level
+                    level.XMap = (short)(level.XStart - 
+                        (2 * Block.SPRITE_WIDTH));
+                    level.YMap = level.YStart;
                 }
 
                 // Transition between levels
-                if(character.X == level.XEnd && character.Y == level.YEnd)
+                if(character.X + character.HitboxWidth >= level.XEnd && 
+                    character.X <= level.XEnd && character.Y + 
+                    character.HitboxHeight >= level.YEnd && character.Y <=
+                    level.YEnd)
                 {
-                    level = new Level("gameData/levels/levelTutorial.txt");
+                    // Saving the progression of the levels
+                    level.SaveLevel(numOfTheLevel);
+                    numOfTheLevel++;
+
+                    // Loading the new level
+                    level = new Level(Level.GetLevelName(numOfTheLevel));
                     character.Level = level;
                     character.MoveTo(level.XStart, level.YStart);
+                }
+
+                // End of the game, all levels cleared
+                if(gameOver)
+                {
+                    numOfTheLevel = 0;
                 }
 
                 // Update delta time

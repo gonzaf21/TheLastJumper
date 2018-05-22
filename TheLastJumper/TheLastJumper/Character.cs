@@ -1,5 +1,9 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.07: Fixed the scroll issues: it was a problem with the reading of the
+ * level and some conditions that were using the width and height of the
+ * gamecontroller.
+ * 
  * V0.06: Added new attributtes to check and stop the movement after a 
  * collision is detected. Attribute Level included to use it for the scroll
  * with the movement of the character.
@@ -129,11 +133,11 @@ namespace TheLastJumper
             }
 
             // Falling calculations
-            if (IsFalling)
+            if (IsFalling && !IsOver)
             {
                 this.Animate(MovableSprite.SpriteMovement.DOWN);
                 SpeedY += STEP_LENGTH * (hardware.DeltaTime / 10);
-                if (this.Y < GameController.SCREEN_HEIGHT - SPRITE_HEIGHT)
+                if (this.Y < Level.Height - SPRITE_HEIGHT)
                 {
                     this.Y += SpeedY;
                     // Level scroll
@@ -158,15 +162,21 @@ namespace TheLastJumper
                             Level.XMap -= (short)SpeedX;
                     }
                 }
-                else if (this.Y + SPRITE_HEIGHT >= 
-                    GameController.SCREEN_HEIGHT)
+                else if (this.Y + SPRITE_HEIGHT >= Level.Height)
                 {
                     IsFalling = false;
                     SpeedY = 0;
                     SpeedX = 0;
                     this.MoveTo(this.X,
-                        GameController.SCREEN_HEIGHT - SPRITE_HEIGHT);
+                        (Level.Height - Block.SPRITE_HEIGHT) - SPRITE_HEIGHT);
                 }
+            }
+
+            // Checking if its over something
+            if (IsOver)
+            {
+                IsJumping = false;
+                IsFalling = false;
             }
 
             // Checking jump
@@ -192,7 +202,7 @@ namespace TheLastJumper
             {
                 this.Animate(MovableSprite.SpriteMovement.RIGHT);
                 SpeedX = STEP_LENGTH * (hardware.DeltaTime / 30);
-                if (this.X + SpeedX < 800 - HitboxWidth)
+                if (this.X + SpeedX < Level.Width - HitboxWidth)
                 {
                     this.X += SpeedX;
                     // Level scroll
@@ -201,14 +211,54 @@ namespace TheLastJumper
                 }
             }
 
-            // To reset the position of the player to the starting point of the
-            // level.
+            // To reset the position of the player and the view of the game 
+            // to the starting point of the level.
             if (resetPressed)
+            {
                 this.MoveTo(Level.XStart, Level.YStart);
+                Level.XMap = (short)(Level.XStart - (2 * Block.SPRITE_WIDTH));
+                Level.YMap = Level.YStart;
+            }
+
+            // Scroll view adjustments
+            if (Level.XMap < 0)
+            {
+                Level.XMap = 0;
+            }                
+            else if (Level.XMap > Level.Width - GameController.SCREEN_WIDTH)
+            {
+                Level.XMap = (short)(Level.Width - 
+                    GameController.SCREEN_WIDTH);
+            }
+
+            if (Level.YMap < 0)
+            {
+                Level.YMap = 0;
+            }                
+            else if (Level.YMap > Level.Height - GameController.SCREEN_HEIGHT)
+            {
+                Level.YMap = (short)(Level.Height - 
+                    GameController.SCREEN_HEIGHT);
+            }
+
+            // Character limitations (This can change in future versions)   
+            if (this.X < 0)
+            {
+                this.X = 0;
+            }
+            else if (this.X > Level.Width - SPRITE_WIDTH)
+            {
+                this.X = (short)(Level.Width - SPRITE_WIDTH);
+            }
+               
+            if (this.Y - Level.YMap < 0)
+            {
+                this.Y = 0;
+            }
         }
 
         // Method that calculates the different collisions of the character.
-        public void CollidesWith(float x, float y, short width, 
+        public void CollidesWithMovement(float x, float y, short width, 
             short height)
         {
              if ((X + HitboxWidth >= x && X <= x + width) && (Y + 
