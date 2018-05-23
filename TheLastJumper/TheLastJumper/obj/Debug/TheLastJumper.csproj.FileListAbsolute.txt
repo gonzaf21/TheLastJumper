@@ -1,0 +1,72 @@
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\TheLastJumper.exe.config
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\gameData\forestbg2x.png
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\gameData\foresttiles01.png
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\gameData\platformer_sprites.png
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\libfreetype-6.dll
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\libpng12-0.dll
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\libpng12.dll
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\SDL.dll
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\SDL_image.dll
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\SDL_mixer.dll
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\SDL_ttf.dll
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\Tao.Sdl.dll
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\zlib1.dll
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\TheLastJumper.exe
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\TheLastJumper.pdb
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\obj\Debug\TheLastJumper.csprojResolveAssemblyReference.cache
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\obj\Debug\TheLastJumper.exe
+c:\users\hp\documents\visual studio 2015\Projects\TheLastJumper\TheLastJumper\obj\Debug\TheLastJumper.pdb
+C:\Users\HP\Documents\Visual Studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\gameData\chargen.ttf
+C:\Users\HP\Documents\Visual Studio 2015\Projects\TheLastJumper\TheLastJumper\bin\Debug\gameData\levels\leveltest.txt
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\TheLastJumper.exe.config
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\obj\Debug\TheLastJumper.exe
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\obj\Debug\TheLastJumper.pdb
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\gameData\esbr.png
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\gameData\forestbg2x.png
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\gameData\foresttiles01.png
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\gameData\levels\leveltest.txt
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\gameData\menuTitle.png
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\gameData\platformer_sprites.png
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\libfreetype-6.dll
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\libpng12-0.dll
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\libpng12.dll
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\SDL.dll
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\SDL_image.dll
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\SDL_mixer.dll
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\SDL_ttf.dll
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\Tao.Sdl.dll
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\zlib1.dll
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\gameData\chargen.ttf
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\TheLastJumper.exe
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\TheLastJumper.pdb
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\obj\Debug\TheLastJumper.csprojResolveAssemblyReference.cache
+C:\Users\Miguel\Desktop\TheLastJumper_V0.03\TheLastJumper\TheLastJumper\bin\Debug\gameData\levels\levelTutorial.txt
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\TheLastJumper.exe.config
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\obj\Debug\TheLastJumper.exe
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\obj\Debug\TheLastJumper.pdb
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\gameData\esbr.png
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\gameData\forestbg2x.png
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\gameData\foresttiles01.png
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\gameData\levels\levelTutorial.txt
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\gameData\levels\leveltest.txt
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\gameData\menuTitle.png
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\gameData\platformer_sprites.png
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\libfreetype-6.dll
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\libpng12-0.dll
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\libpng12.dll
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\SDL.dll
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\SDL_image.dll
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\SDL_mixer.dll
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\SDL_ttf.dll
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\Tao.Sdl.dll
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\zlib1.dll
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\gameData\chargen.ttf
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\TheLastJumper.exe
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\bin\Debug\TheLastJumper.pdb
+C:\Users\HP\Desktop\Gonzalo\DAM\Programacion\PROYECTO\Versiones\TheLastJumper_V0.04\TheLastJumper\TheLastJumper\obj\Debug\TheLastJumper.csprojResolveAssemblyReference.cache
+C:\Users\HP\Documents\GitHub\TheLastJumper\TheLastJumper\TheLastJumper\bin\Debug\TheLastJumper.exe.config
+C:\Users\HP\Documents\GitHub\TheLastJumper\TheLastJumper\TheLastJumper\obj\Debug\TheLastJumper.exe
+C:\Users\HP\Documents\GitHub\TheLastJumper\TheLastJumper\TheLastJumper\obj\Debug\TheLastJumper.pdb
+C:\Users\HP\Documents\GitHub\TheLastJumper\TheLastJumper\TheLastJumper\bin\Debug\TheLastJumper.exe
+C:\Users\HP\Documents\GitHub\TheLastJumper\TheLastJumper\TheLastJumper\bin\Debug\TheLastJumper.pdb
+C:\Users\HP\Documents\GitHub\TheLastJumper\TheLastJumper\TheLastJumper\obj\Debug\TheLastJumper.csprojResolveAssemblyReference.cache
