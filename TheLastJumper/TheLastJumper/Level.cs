@@ -1,5 +1,8 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.08: Finished the saving of the levels on a file and only writing the 
+ * names of the level to check them in the Load Screen.
+ * 
  * V0.07: Adding the list of traps to use it, creating and loading them. Also,
  * set the origin of the view from a letter in the file readed.
  * Beginning of the save system for the levels cleared, so changes on the
@@ -138,36 +141,34 @@ namespace TheLastJumper
         // Method to save the progression of the levels cleared
         public void SaveLevel(short levelNum)
         {
-            if(!File.Exists("gameData/levels/levelsCleared.txt"))
-                Console.WriteLine("The file to save thing doesn't exist!");
-            else
+            try
             {
-                try
-                {
-                    StreamWriter fileWriter = File.AppendText(
-                        "gameData/levels/levelsCleared.txt");
-                    fileWriter.WriteLine(levelNames[levelNum]);
-                    fileWriter.Close();
-                }
-                catch (FileNotFoundException)
-                {
-                    Console.WriteLine("File not found.");
-                }
-                catch (PathTooLongException)
-                {
-                    Console.WriteLine("The path to save this level is too" +
-                        " long...");
-                }
-                catch (IOException e)
-                {
-                    Console.WriteLine("IO error... --> " + e.Message);
-                }
-                catch (Exception e)
-                {
-                    // A log file will be used in the end
-                    Console.WriteLine("My bad! An error ocurred --> " +
-                        e.Message);
-                }
+                StreamWriter fileWriter = File.AppendText(
+                    "gameData/levels/levelsCleared.txt");
+                int pos = levelNames[levelNum].LastIndexOf("/") + 1;
+                fileWriter.WriteLine(
+                    (levelNames[levelNum]).Substring(pos, 
+                        levelNames[levelNum].LastIndexOf(".") - pos));
+                fileWriter.Close();
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("File not found.");
+            }
+            catch (PathTooLongException)
+            {
+                Console.WriteLine("The path to save this level is too" +
+                    " long...");
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("IO error... --> " + e.Message);
+            }
+            catch (Exception e)
+            {
+                // A log file will be used in the end
+                Console.WriteLine("My bad! An error ocurred --> " +
+                    e.Message);
             }
         }
 

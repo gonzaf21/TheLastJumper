@@ -1,5 +1,8 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.08: Minor changes and adding the credits screen after completing all 
+ * levels.
+ * 
  * V0:07: Setting and drawing the traps from the level, minor corrections
  * on death of the player to use it with these traps. Some minor changes and
  * additions.
@@ -145,9 +148,9 @@ namespace TheLastJumper
                         (2 * Block.SPRITE_WIDTH));
                     level.YMap = level.YStart;
                 }
-
+                
                 // Transition between levels
-                if(character.X + character.HitboxWidth >= level.XEnd && 
+                if (character.X + character.HitboxWidth >= level.XEnd && 
                     character.X <= level.XEnd && character.Y + 
                     character.HitboxHeight >= level.YEnd && character.Y <=
                     level.YEnd)
@@ -166,6 +169,9 @@ namespace TheLastJumper
                 if(gameOver)
                 {
                     numOfTheLevel = 0;
+                    // Show the credits after finishing the game
+                    CreditsScreen credits = new CreditsScreen(hardware);
+                    credits.Show();
                 }
 
                 // Update delta time
