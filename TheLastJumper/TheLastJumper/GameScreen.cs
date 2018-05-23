@@ -1,7 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
  * V0.08: Minor changes and adding the credits screen after completing all 
- * levels.
+ * levels. Changed the font.
  * 
  * V0:07: Setting and drawing the traps from the level, minor corrections
  * on death of the player to use it with these traps. Some minor changes and
@@ -55,8 +55,8 @@ namespace TheLastJumper
             character = new Character(hardware);
             character.Level = level;
             character.MoveTo(level.XStart, level.YStart);
-            font40 = new Font("gameData/chargen.ttf", 40);
-            font18 = new Font("gameData/chargen.ttf", 18);
+            font40 = new Font("gameData/AgencyFB.ttf", 50);
+            font18 = new Font("gameData/AgencyFB.ttf", 28);
             previousTime = 0;
             gameOver = false;
         }

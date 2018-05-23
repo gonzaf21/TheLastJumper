@@ -1,5 +1,8 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.08: Added constants for the value of the keys that will be used in 
+ * the input of the scoreboard screen.
+ * 
  * V0.02: Added method UpdateDeltaTime() to calculate the time between frames.
  * Added attribute deltaTime on this class to use it on other classes.
  * 
@@ -21,6 +24,33 @@ namespace TheLastJumper
         public const int KEY_RIGHT = Sdl.SDLK_RIGHT;
         public const int KEY_SPACE = Sdl.SDLK_SPACE;
         public const int KEY_SHIFT = Sdl.SDLK_LSHIFT;
+        public const int KEY_ENTER = Sdl.SDLK_KP_ENTER;
+        public const int KEY_A = Sdl.SDLK_a;
+        public const int KEY_B = Sdl.SDLK_b;
+        public const int KEY_C = Sdl.SDLK_c;
+        public const int KEY_D = Sdl.SDLK_d;
+        public const int KEY_E = Sdl.SDLK_e;
+        public const int KEY_F = Sdl.SDLK_f;
+        public const int KEY_G = Sdl.SDLK_g;
+        public const int KEY_H = Sdl.SDLK_h;
+        public const int KEY_I = Sdl.SDLK_i;
+        public const int KEY_J = Sdl.SDLK_j;
+        public const int KEY_K = Sdl.SDLK_k;
+        public const int KEY_L = Sdl.SDLK_l;
+        public const int KEY_M = Sdl.SDLK_m;
+        public const int KEY_N = Sdl.SDLK_n;
+        public const int KEY_O = Sdl.SDLK_o;
+        public const int KEY_P = Sdl.SDLK_p;
+        public const int KEY_Q = Sdl.SDLK_q;
+        public const int KEY_R = Sdl.SDLK_r;
+        public const int KEY_S = Sdl.SDLK_s;
+        public const int KEY_T = Sdl.SDLK_t;
+        public const int KEY_U = Sdl.SDLK_u;
+        public const int KEY_V = Sdl.SDLK_v;
+        public const int KEY_W = Sdl.SDLK_w;
+        public const int KEY_X = Sdl.SDLK_x;
+        public const int KEY_Y = Sdl.SDLK_y;
+        public const int KEY_Z = Sdl.SDLK_z;
 
         public float DeltaTime { get; set; }
 

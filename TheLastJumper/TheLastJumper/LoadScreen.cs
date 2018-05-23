@@ -21,7 +21,7 @@ namespace TheLastJumper
 
         public LoadScreen(Hardware hardware) : base(hardware)
         {
-            font = new Font("gameData/AgencyFB.txt", 30);
+            font = new Font("gameData/AgencyFB.ttf", 30);
             levelsCleared = LoadSelectableLevels();
             imageBG = new Image("gameData/loadImg.png", 800, 600);
         }
@@ -32,6 +32,7 @@ namespace TheLastJumper
             short numLevel = 0;
             short posXText = 20;
             short posYText = 20;
+            int key;
 
             hardware.ClearScreen();
             hardware.DrawImage(imageBG);
@@ -42,16 +43,32 @@ namespace TheLastJumper
                 if (posXText >= 600)
                     posYText += 40;
 
-                hardware.WriteText("Level " + numLevel, posXText, posYText, 
+                hardware.WriteText(levelsCleared[i], posXText, posYText, 
                     255, 0, 0, font);
             }
+
+            // Render the first level text if cleared in different color
 
             hardware.UpdateScreen();
             do
             {
-                // TODO
+                key = hardware.KeyPressed();
+                
+                if(key == Hardware.KEY_RIGHT)
+                {
+                    numLevel++;
+                    // Render text of the next level in diferent color below
+                    // its text.
+                }
+
+                if(key == Hardware.KEY_LEFT)
+                {
+                    numLevel--;
+                    // Render text of the previous level in diferent color 
+                    // below its text.
+                }
                 hardware.UpdateScreen();
-            } while (!hardware.IsKeyPressed(Hardware.KEY_SPACE));
+            } while (key != Hardware.KEY_ENTER);
         }
 
         // Method to read the levels cleared from the file

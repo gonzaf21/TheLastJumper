@@ -1,5 +1,8 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.08: Added icon to draw when moving between options, changed the font, 
+ * changed the ChosenOption to be a public attribute.
+ * 
  * V0.04: Implent the background, loop of the chosen option and write text.
  * 
  * V0.01: Basic skeleton of the MenuScreen class.
@@ -11,53 +14,59 @@ namespace TheLastJumper
 {
     class MenuScreen : Screen
     {
+        public int ChosenOption { get; set; }
         protected Image imgMenu;
         protected Font font;
-        public int chosenOption = 1;
+        protected Image menuIcon;
+        protected short iconYPos;
 
         public MenuScreen(Hardware hardware) : base(hardware)
         {
-            font = new Font("gameData/chargen.ttf",18);
-            imgMenu = new Image("gameData/menuTitle.png",800,600);
+            font = new Font("gameData/AgencyFB.ttf", 70);
+            imgMenu = new Image("gameData/menuTitle.png", 800, 600);
+            menuIcon = new Image("gameData/menuIcon.png", 59, 60);
+            ChosenOption = 1;
+            iconYPos = 250;
         }
 
         public override void Show()
         {
-            bool spaceEnter = false;
+            bool spacePressed = false;
+            int keyPressed;
+
             do
             {
+                // Drawing the basic text 
                 hardware.ClearScreen();
+
                 hardware.DrawImage(imgMenu);
-                hardware.WriteText("Play", 398,250, 255, 0, 0, font);
-                hardware.WriteText("Load level", 398, 280, 255, 0, 0, font);
-                hardware.WriteText("Credit", 398, 310, 255, 0, 0, font);
-                hardware.WriteText("Exit", 398, 330, 255, 0, 0, font);
-                hardware.UpdateScreen();
+                hardware.DrawSprite(menuIcon, 180, iconYPos, 0, 0, 59, 60);
+                hardware.WriteText("Play", 250, 250, 255, 0, 0, font);
+                hardware.WriteText("Load level", 250, 320, 255, 0, 0, font);
+                hardware.WriteText("Credits", 250, 390, 255, 0, 0, font);
+                hardware.WriteText("Exit", 250, 460, 255, 0, 0, font);
 
-                
+                keyPressed = hardware.KeyPressed();
 
-
-                int keyPressed = hardware.KeyPressed();
-
-                if(keyPressed == Hardware.KEY_UP && chosenOption > 1)
+                if (keyPressed == Hardware.KEY_UP && ChosenOption > 1)
                 {
-                    chosenOption--;
+                    ChosenOption--;
+                    iconYPos -= 70;
                 }
-                else if(keyPressed == Hardware.KEY_DOWN && chosenOption < 4)
+                else if (keyPressed == Hardware.KEY_DOWN && ChosenOption < 4)
                 {
-                    chosenOption++;
+                    ChosenOption++;
+                    iconYPos += 70;
+
                 }
                 else if (keyPressed == Hardware.KEY_SPACE)
                 {
-                    spaceEnter = true;
+                    spacePressed = true;
                 }
 
-            } while (!spaceEnter);
-        }
+                hardware.UpdateScreen();
 
-        public int ChooseOption()
-        {
-            return chosenOption;
+            } while (!spacePressed);
         }
     }
 }
