@@ -1,5 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.09: Ability to select and display the level that is going to load.
+ * 
  * V0.08: Some changes in the implementation of this class: Added a method 
  * to get a list of the names of the level completed and started to draw
  * and write things.
@@ -10,65 +12,92 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using Tao.Sdl;
 
 namespace TheLastJumper
 {
     class LoadScreen : Screen
     {
+        public short NumLevel { get; set; }
         protected Font font;
         protected List<string> levelsCleared;
         protected Image imageBG;
 
         public LoadScreen(Hardware hardware) : base(hardware)
         {
-            font = new Font("gameData/AgencyFB.ttf", 30);
+            font = new Font("gameData/AgencyFB.ttf", 60);
             levelsCleared = LoadSelectableLevels();
             imageBG = new Image("gameData/loadImg.png", 800, 600);
+            NumLevel = 0;
         }
 
         public override void Show()
         {
             int totalLevels = levelsCleared.Count;
-            short numLevel = 0;
             short posXText = 20;
             short posYText = 20;
             int key;
+            IntPtr[] levelNames = new IntPtr[levelsCleared.Count];
 
-            hardware.ClearScreen();
-            hardware.DrawImage(imageBG);
-
-            for(int i = 0; i < totalLevels; i++)
+            /*
+            for (int i = 0; i < totalLevels; i++)
             {
-                posXText += 40;
                 if (posXText >= 600)
+                {
                     posYText += 40;
-
-                hardware.WriteText(levelsCleared[i], posXText, posYText, 
+                    posXText = 20;
+                }
+                hardware.WriteText(levelsCleared[i], posXText, posYText,
                     255, 0, 0, font);
-            }
+                posXText += 100;
+            }*/
 
-            // Render the first level text if cleared in different color
-
-            hardware.UpdateScreen();
             do
             {
-                key = hardware.KeyPressed();
-                
-                if(key == Hardware.KEY_RIGHT)
+                hardware.ClearScreen();
+                hardware.DrawImage(imageBG);
+
+                for (int i = 0; i < totalLevels; i++)
                 {
-                    numLevel++;
-                    // Render text of the next level in diferent color below
-                    // its text.
+                    if (posXText >= 600)
+                    {
+                        posYText += 40;
+                        posXText = 20;
+                    }
+                    levelNames[i] = SdlTtf.TTF_RenderText_Solid(
+                        font.GetFontType(), levelsCleared[NumLevel],
+                        hardware.red);
+                    hardware.WriteTextRender(levelNames[i], posXText,
+                        posYText);
+                    posXText += 100;
                 }
 
-                if(key == Hardware.KEY_LEFT)
+
+                key = hardware.KeyPressed();
+
+                if (key == Hardware.KEY_RIGHT && NumLevel < 
+                    levelsCleared.Count - 1)
                 {
-                    numLevel--;
-                    // Render text of the previous level in diferent color 
-                    // below its text.
+                    NumLevel++;
+                    
+                    levelNames[NumLevel] = SdlTtf.TTF_RenderText_Solid(
+                        font.GetFontType(), levelsCleared[NumLevel], 
+                        hardware.white);
+
+                    // Send the level selected to be loaded
                 }
+
+                if(key == Hardware.KEY_LEFT && NumLevel > 0)
+                {
+                    NumLevel--;
+                    levelNames[NumLevel] = SdlTtf.TTF_RenderText_Solid(
+                        font.GetFontType(), levelsCleared[NumLevel],
+                        hardware.white);
+                }            
+
                 hardware.UpdateScreen();
-            } while (key != Hardware.KEY_ENTER);
+
+            } while (key != Hardware.KEY_ESC);
         }
 
         // Method to read the levels cleared from the file

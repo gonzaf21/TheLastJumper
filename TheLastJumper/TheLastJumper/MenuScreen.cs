@@ -57,7 +57,6 @@ namespace TheLastJumper
                 {
                     ChosenOption++;
                     iconYPos += 70;
-
                 }
                 else if (keyPressed == Hardware.KEY_SPACE)
                 {

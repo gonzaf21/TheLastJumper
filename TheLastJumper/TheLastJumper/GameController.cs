@@ -1,5 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.09: Fixed the menu so we can work on the load screen.
+ * 
  * V0.04 : Added some changes to add the intro and menu screens.
  *
  * V0.03: Some changes to prepare the transition between screens.
@@ -19,6 +21,7 @@ namespace TheLastJumper
         {
             Hardware hardware = new Hardware(SCREEN_WIDTH, SCREEN_HEIGHT,
                 24, false);
+            bool exit = false;
 
             WelcomeScreen welcome = new WelcomeScreen(hardware);
             welcome.Show();
@@ -27,10 +30,29 @@ namespace TheLastJumper
             do
             {
                 menu.Show();
-                GameScreen game = new GameScreen(hardware);
-                game.Show();
 
-            } while (!hardware.IsKeyPressed(Hardware.KEY_ESC));
+                switch (menu.ChosenOption)
+                {
+                    case 1:
+                        GameScreen game = new GameScreen(hardware);
+                        game.Show();
+                        break;
+
+                    case 2:
+                        LoadScreen load = new LoadScreen(hardware);
+                        load.Show();
+                        break;
+
+                    case 3:
+                        CreditsScreen credits = new CreditsScreen(hardware);
+                        credits.Show();
+                        break;
+
+                    default:
+                        exit = true;
+                        break;
+                }
+            } while (!exit);
         }
     }
 }

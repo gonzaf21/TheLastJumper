@@ -1,5 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.09: Added another method to render text.
+ * 
  * V0.08: Added constants for the value of the keys that will be used in 
  * the input of the scoreboard screen.
  * 
@@ -51,6 +53,8 @@ namespace TheLastJumper
         public const int KEY_X = Sdl.SDLK_x;
         public const int KEY_Y = Sdl.SDLK_y;
         public const int KEY_Z = Sdl.SDLK_z;
+        public Sdl.SDL_Color white = new Sdl.SDL_Color(255, 255, 255);
+        public Sdl.SDL_Color red = new Sdl.SDL_Color(255, 0, 0);
 
         public float DeltaTime { get; set; }
 
@@ -183,6 +187,16 @@ namespace TheLastJumper
             Sdl.SDL_BlitSurface(textAsImage, ref src, screen, ref dest);
 
             Sdl.SDL_FreeSurface(textAsImage);
+        }
+
+        // Writes a text from IntPtr
+        public void WriteTextRender(IntPtr textAsImage, short x, short y)
+        {
+            Sdl.SDL_Rect src = new Sdl.SDL_Rect(0, 0, screenWidth, 
+                screenHeight);
+            Sdl.SDL_Rect dest = new Sdl.SDL_Rect(x, y, screenWidth, 
+                screenHeight);
+            Sdl.SDL_BlitSurface(textAsImage, ref src, screen, ref dest);
         }
 
         // Writes a line in the specified coordinates, with the specified 
