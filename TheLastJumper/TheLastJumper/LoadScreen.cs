@@ -1,6 +1,8 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
- * V0.09: Ability to select and display the level that is going to load.
+ * V0.09: Ability to select and display all the levels cleared by reading
+ * from the file and changing between them to load the one we want.
+ * Added DrawInColor method.
  * 
  * V0.08: Some changes in the implementation of this class: Added a method 
  * to get a list of the names of the level completed and started to draw
@@ -25,7 +27,7 @@ namespace TheLastJumper
 
         public LoadScreen(Hardware hardware) : base(hardware)
         {
-            font = new Font("gameData/AgencyFB.ttf", 60);
+            font = new Font("gameData/AgencyFB.ttf", 50);
             levelsCleared = LoadSelectableLevels();
             imageBG = new Image("gameData/loadImg.png", 800, 600);
             NumLevel = 0;
@@ -37,41 +39,41 @@ namespace TheLastJumper
             short posXText = 20;
             short posYText = 20;
             int key;
-            IntPtr[] levelNames = new IntPtr[levelsCleared.Count];
+            IntPtr[] levelNames = new IntPtr[totalLevels];
+            short[] posX = new short[totalLevels];
+            short[] posY = new short[totalLevels];
 
-            /*
+            // Setting the texts and its coordinates in different arrays
             for (int i = 0; i < totalLevels; i++)
             {
+                posX[i] = posXText;
+                posY[i] = posYText;
+
                 if (posXText >= 600)
                 {
                     posYText += 40;
                     posXText = 20;
                 }
-                hardware.WriteText(levelsCleared[i], posXText, posYText,
-                    255, 0, 0, font);
-                posXText += 100;
-            }*/
+                DrawInColor((short)i, levelNames, "red");
+
+                posXText += 140;
+            }
 
             do
             {
                 hardware.ClearScreen();
                 hardware.DrawImage(imageBG);
-
-                for (int i = 0; i < totalLevels; i++)
+                
+                for(int i = 0; i < totalLevels; i++)
                 {
-                    if (posXText >= 600)
-                    {
-                        posYText += 40;
-                        posXText = 20;
-                    }
-                    levelNames[i] = SdlTtf.TTF_RenderText_Solid(
-                        font.GetFontType(), levelsCleared[NumLevel],
-                        hardware.red);
-                    hardware.WriteTextRender(levelNames[i], posXText,
-                        posYText);
-                    posXText += 100;
+                    hardware.WriteTextRender(levelNames[i], posX[i],
+                        posY[i]);
                 }
 
+                // Setting the first level displayed as selected
+                levelNames[NumLevel] = SdlTtf.TTF_RenderText_Solid(
+                        font.GetFontType(), levelsCleared[NumLevel],
+                        hardware.white);
 
                 key = hardware.KeyPressed();
 
@@ -79,25 +81,37 @@ namespace TheLastJumper
                     levelsCleared.Count - 1)
                 {
                     NumLevel++;
-                    
-                    levelNames[NumLevel] = SdlTtf.TTF_RenderText_Solid(
-                        font.GetFontType(), levelsCleared[NumLevel], 
-                        hardware.white);
-
-                    // Send the level selected to be loaded
+                    DrawInColor(NumLevel, levelNames, "white");
+                    DrawInColor((short)(NumLevel - 1), levelNames, "red");
                 }
 
-                if(key == Hardware.KEY_LEFT && NumLevel > 0)
+                if (key == Hardware.KEY_LEFT && NumLevel > 0)
                 {
                     NumLevel--;
-                    levelNames[NumLevel] = SdlTtf.TTF_RenderText_Solid(
-                        font.GetFontType(), levelsCleared[NumLevel],
-                        hardware.white);
-                }            
+                    DrawInColor(NumLevel, levelNames, "white");
+                    DrawInColor((short)(NumLevel + 1), levelNames, "red");
+                }
 
                 hardware.UpdateScreen();
 
             } while (key != Hardware.KEY_ESC);
+        }
+
+        // Draws the text of the level selected in the chosen color
+        public void DrawInColor(short num, IntPtr[] levelNames, string color)
+        {
+            if (color == "red")
+            {
+                levelNames[num] = SdlTtf.TTF_RenderText_Solid(
+                font.GetFontType(), levelsCleared[num],
+                hardware.red);
+            }
+            else if(color == "white")
+            {
+                levelNames[num] = SdlTtf.TTF_RenderText_Solid(
+                font.GetFontType(), levelsCleared[num],
+                hardware.white);
+            }
         }
 
         // Method to read the levels cleared from the file
