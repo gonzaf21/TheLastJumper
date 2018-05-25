@@ -1,5 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * v0.10: Added enemies and collectibles.
+ * 
  * V0.08: Finished the saving of the levels on a file and only writing the 
  * names of the level to check them in the Load Screen.
  * 
@@ -35,6 +37,7 @@ namespace TheLastJumper
         public List<Block> Blocks { get; set; }
         public List<Enemy> Enemies { get; set; }
         public List<Trap> Traps { get; set; }
+        public List<Collectible> Collectibles { get; set; }
         protected static string[] levelNames = 
             { "gameData/levels/leveltest.txt",
             "gameData/levels/levelTutorial.txt" };
@@ -43,6 +46,8 @@ namespace TheLastJumper
         {
             Blocks = new List<Block>();
             Traps = new List<Trap>();
+            Enemies = new List<Enemy>();
+            Collectibles = new List<Collectible>();
             XMap = 0;
             YMap = 0;
             LoadLevel(levelFile);
@@ -105,6 +110,26 @@ namespace TheLastJumper
                                         new Block(i * Block.SPRITE_WIDTH,
                                         numHeight * Block.SPRITE_HEIGHT, 0));
                                 }
+                                else if(elements[i] == "C")
+                                {
+                                    Collectibles.Add(
+                                        new Collectible(i * Block.SPRITE_WIDTH,
+                                        numHeight * Block.SPRITE_HEIGHT));
+                                }
+                                /*else if(elements[i] == "F")
+                                {
+                                    Enemies.Add(new GroundEnemy(
+                                        (short)(i * Block.SPRITE_WIDTH), 
+                                        (short)(numHeight * 
+                                        Block.SPRITE_HEIGHT)));
+                                }
+                                else if(elements[i] == "V")
+                                {
+                                    Enemies.Add(new FlyingEnemy(
+                                        (short)(i * Block.SPRITE_WIDTH),
+                                        (short)(numHeight *
+                                        Block.SPRITE_HEIGHT)));
+                                }*/
                                 numWidth++;
                             }
                             numHeight++;

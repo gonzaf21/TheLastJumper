@@ -54,7 +54,7 @@ namespace TheLastJumper
         public const int KEY_Y = Sdl.SDLK_y;
         public const int KEY_Z = Sdl.SDLK_z;
         public Sdl.SDL_Color white = new Sdl.SDL_Color(255, 255, 255);
-        public Sdl.SDL_Color red = new Sdl.SDL_Color(255, 0, 0);
+        public Sdl.SDL_Color red = new Sdl.SDL_Color(204, 0, 0);
 
         public float DeltaTime { get; set; }
 

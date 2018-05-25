@@ -1,5 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.10: Implemented this class to show it in game.
+ * 
  * V0.01: Basic skeleton of the Enemy class.
  */
 
@@ -9,14 +11,10 @@ namespace TheLastJumper
     {
         public bool IsDead { get; set; }
 
-        public Enemy()
+        public Enemy(float x, float y)
         {
-            // TODO
-        }
-
-        public void MoveEnemy()
-        {
-            // TODO
+            X = x;
+            Y = y;
         }
     }
 }

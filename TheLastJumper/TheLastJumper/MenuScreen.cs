@@ -41,10 +41,10 @@ namespace TheLastJumper
 
                 hardware.DrawImage(imgMenu);
                 hardware.DrawSprite(menuIcon, 180, iconYPos, 0, 0, 59, 60);
-                hardware.WriteText("Play", 250, 250, 255, 0, 0, font);
-                hardware.WriteText("Load level", 250, 320, 255, 0, 0, font);
-                hardware.WriteText("Credits", 250, 390, 255, 0, 0, font);
-                hardware.WriteText("Exit", 250, 460, 255, 0, 0, font);
+                hardware.WriteText("Play", 250, 250, 204, 0, 0, font);
+                hardware.WriteText("Load level", 250, 320, 204, 0, 0, font);
+                hardware.WriteText("Credits", 250, 390, 204, 0, 0, font);
+                hardware.WriteText("Exit", 250, 460, 204, 0, 0, font);
 
                 keyPressed = hardware.KeyPressed();
 

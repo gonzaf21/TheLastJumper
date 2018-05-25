@@ -52,10 +52,12 @@
     <Compile Include="Collectible.cs" />
     <Compile Include="CreditsScreen.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="FlyingEnemy.cs" />
     <Compile Include="Font.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameController.cs" />
     <Compile Include="GameScreen.cs" />
+    <Compile Include="GroundEnemy.cs" />
     <Compile Include="Hardware.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="Level.cs" />

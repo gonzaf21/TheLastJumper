@@ -36,7 +36,7 @@ namespace TheLastJumper
         public override void Show()
         {
             int totalLevels = levelsCleared.Count;
-            short posXText = 20;
+            short posXText = 250;
             short posYText = 20;
             int key;
             IntPtr[] levelNames = new IntPtr[totalLevels];
@@ -46,17 +46,18 @@ namespace TheLastJumper
             // Setting the texts and its coordinates in different arrays
             for (int i = 0; i < totalLevels; i++)
             {
+                if (posXText + 50 >= 600)
+                {
+                    posYText += 80;
+                    posXText = 250;
+                }
+
                 posX[i] = posXText;
                 posY[i] = posYText;
 
-                if (posXText >= 600)
-                {
-                    posYText += 40;
-                    posXText = 20;
-                }
                 DrawInColor((short)i, levelNames, "red");
 
-                posXText += 140;
+                posXText += 230;
             }
 
             do
@@ -71,9 +72,7 @@ namespace TheLastJumper
                 }
 
                 // Setting the first level displayed as selected
-                levelNames[NumLevel] = SdlTtf.TTF_RenderText_Solid(
-                        font.GetFontType(), levelsCleared[NumLevel],
-                        hardware.white);
+                DrawInColor(NumLevel, levelNames, "white");
 
                 key = hardware.KeyPressed();
 
@@ -94,7 +93,7 @@ namespace TheLastJumper
 
                 hardware.UpdateScreen();
 
-            } while (key != Hardware.KEY_ESC);
+            } while (key != Hardware.KEY_SPACE);
         }
 
         // Draws the text of the level selected in the chosen color

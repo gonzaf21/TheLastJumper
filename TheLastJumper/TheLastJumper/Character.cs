@@ -105,7 +105,7 @@ namespace TheLastJumper
                     this.Y += SpeedY;
                     // Level scroll
                     if (Level.YMap > 0)
-                        Level.YMap += (short)SpeedY;
+                        //Level.YMap += (short)SpeedY;
 
                     if (rightPressed)
                     {
@@ -143,7 +143,7 @@ namespace TheLastJumper
                     // Level scroll
                     if (Level.YMap < Level.Height - 
                         GameController.SCREEN_HEIGHT)
-                        Level.YMap += (short)SpeedY;
+                        //Level.YMap += (short)SpeedY;
                     if (rightPressed)
                     {
                         SpeedX += STEP_LENGTH * (hardware.DeltaTime / 30);

@@ -1,5 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.10: Added the option to load a selected level.
+ * 
  * V0.09: Fixed the menu so we can work on the load screen.
  * 
  * V0.04 : Added some changes to add the intro and menu screens.
@@ -41,6 +43,11 @@ namespace TheLastJumper
                     case 2:
                         LoadScreen load = new LoadScreen(hardware);
                         load.Show();
+
+                        // To load the selected level
+                        GameScreen gameLoaded = new GameScreen(hardware,
+                            load.NumLevel);
+                        gameLoaded.Show();
                         break;
 
                     case 3:

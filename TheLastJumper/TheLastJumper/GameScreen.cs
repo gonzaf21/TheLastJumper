@@ -44,13 +44,11 @@ namespace TheLastJumper
         protected float currentTime;
         protected Level level;
         protected bool gameOver;
-        protected short numOfTheLevel;
+        protected short numOfTheLevel = 0;
 
         public GameScreen(Hardware hardware) : base(hardware)
         {
-            // TODO: this is just for test purposes
             background = new Image("gameData/forestbg2x.png", 2553, 1487);
-            numOfTheLevel = 0;
             level = new Level(Level.GetLevelName(numOfTheLevel));
             character = new Character(hardware);
             character.Level = level;
@@ -59,6 +57,12 @@ namespace TheLastJumper
             font18 = new Font("gameData/AgencyFB.ttf", 28);
             previousTime = 0;
             gameOver = false;
+        }
+
+        //Another constructor to load the level selected
+        public GameScreen(Hardware hardware, short numLevel) : this(hardware)
+        {
+            numOfTheLevel = numLevel;
         }
 
         public override void Show()
@@ -90,8 +94,6 @@ namespace TheLastJumper
                     0, font18);
                 hardware.WriteText("Shift -> Reset position", 80, 185, 255, 0,
                     0, font18);
-                hardware.WriteText("The Last Jumper", 250, 140, 153, 0, 
-                    153, font40);
 
                 // Drawing the blocks and traps from the level
                 foreach(Block b in level.Blocks)
@@ -107,6 +109,30 @@ namespace TheLastJumper
                         level.XMap), (short)(t.Y - level.YMap), t.XToDraw,
                         t.YToDraw, Trap.SPRITE_WIDTH, Trap.SPRITE_HEIGHT);
                 }
+
+                foreach (Collectible c in level.Collectibles)
+                {
+                    hardware.DrawSprite(Collectible.SpriteCollectible, 
+                        (short)(c.X - level.XMap), (short)(c.Y - level.YMap), 
+                        c.XToDraw, c.YToDraw, Collectible.SPRITE_WIDTH, 
+                        Collectible.SPRITE_HEIGHT);
+                }
+
+                /*foreach (GroundEnemy g in level.Enemies)
+                {
+                    hardware.DrawSprite(GroundEnemy.SpriteGroundEnemy, 
+                        (short)(g.X - level.XMap), (short)(g.Y - level.YMap), 
+                        g.SpriteX, g.SpriteY, GroundEnemy.SPRITE_WIDTH, 
+                        GroundEnemy.SPRITE_HEIGHT);
+                }
+
+                foreach (FlyingEnemy f in level.Enemies)
+                {
+                    hardware.DrawSprite(FlyingEnemy.SpriteFlyingEnemy,
+                        (short)(f.X - level.XMap), (short)(f.Y - level.YMap),
+                        f.SpriteX, f.SpriteY, GroundEnemy.SPRITE_WIDTH,
+                        GroundEnemy.SPRITE_HEIGHT);
+                }*/
 
                 // Updating the screen
                 hardware.UpdateScreen();
