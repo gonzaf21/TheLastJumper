@@ -26,7 +26,7 @@ namespace TheLastJumper
             imgMenu = new Image("gameData/menuTitle.png", 800, 600);
             menuIcon = new Image("gameData/menuIcon.png", 59, 60);
             ChosenOption = 1;
-            iconYPos = 250;
+            iconYPos = 220;
         }
 
         public override void Show()
@@ -41,10 +41,11 @@ namespace TheLastJumper
 
                 hardware.DrawImage(imgMenu);
                 hardware.DrawSprite(menuIcon, 180, iconYPos, 0, 0, 59, 60);
-                hardware.WriteText("Play", 250, 250, 204, 0, 0, font);
-                hardware.WriteText("Load level", 250, 320, 204, 0, 0, font);
-                hardware.WriteText("Credits", 250, 390, 204, 0, 0, font);
-                hardware.WriteText("Exit", 250, 460, 204, 0, 0, font);
+                hardware.WriteText("Play", 250, 220, 204, 0, 0, font);
+                hardware.WriteText("Load level", 250, 290, 204, 0, 0, font);
+                hardware.WriteText("Scoreboard", 250, 360, 204, 0, 0, font);
+                hardware.WriteText("Credits", 250, 430, 204, 0, 0, font);
+                hardware.WriteText("Exit", 250, 500, 204, 0, 0, font);
 
                 keyPressed = hardware.KeyPressed();
 
@@ -53,7 +54,7 @@ namespace TheLastJumper
                     ChosenOption--;
                     iconYPos -= 70;
                 }
-                else if (keyPressed == Hardware.KEY_DOWN && ChosenOption < 4)
+                else if (keyPressed == Hardware.KEY_DOWN && ChosenOption < 5)
                 {
                     ChosenOption++;
                     iconYPos += 70;

@@ -38,7 +38,6 @@ namespace TheLastJumper
 
                 hardware.UpdateScreen();
             } while (keyPressed != Hardware.KEY_ESC);
-            
         }
     }
 }

@@ -11,7 +11,7 @@ namespace TheLastJumper
         public const byte SPRITE_WIDTH = 50;
         public const byte SPRITE_HEIGHT = 50;
         public static Image SpriteGroundEnemy =
-            new Image("gameData/enemy1.jpg", 600, 600);
+            new Image("gameData/enemy2.png", 920, 920);
 
         public GroundEnemy(short x, short y) : base(x, y)
         {

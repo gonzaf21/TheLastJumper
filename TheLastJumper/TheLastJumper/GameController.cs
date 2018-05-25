@@ -51,9 +51,14 @@ namespace TheLastJumper
                         break;
 
                     case 3:
+                        ScoreBoard score = new ScoreBoard(hardware);
+                        score.Show();
+                        break;
+
+                    case 4:
                         CreditsScreen credits = new CreditsScreen(hardware);
                         credits.Show();
-                        break;
+                        break;                    
 
                     default:
                         exit = true;

@@ -1,5 +1,8 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.10: Changes to draw collectibles, the exit door and enemies in game, as
+ * well as adding another constructor to load levels in a better way.
+ * 
  * V0.08: Minor changes and adding the credits screen after completing all 
  * levels. Changed the font.
  * 
@@ -45,6 +48,8 @@ namespace TheLastJumper
         protected Level level;
         protected bool gameOver;
         protected short numOfTheLevel = 0;
+        protected Image doorImg;
+        protected Image enemyImg;
 
         public GameScreen(Hardware hardware) : base(hardware)
         {
@@ -57,6 +62,8 @@ namespace TheLastJumper
             font18 = new Font("gameData/AgencyFB.ttf", 28);
             previousTime = 0;
             gameOver = false;
+            doorImg = new Image("gameData/door.png", 200, 267);
+            enemyImg = new Image("gameData/enemy2.png", 920, 920);
         }
 
         //Another constructor to load the level selected
@@ -78,21 +85,25 @@ namespace TheLastJumper
                 hardware.DrawSprite(background, 0, 0, level.XMap, level.YMap, 
                     GameController.SCREEN_WIDTH, GameController.SCREEN_HEIGHT);
 
+                hardware.DrawSprite(doorImg, (short)(level.XEnd - level.XMap),
+                    (short)(level.YEnd - level.YMap), 0, 0,
+                    60, 60);
+
                 hardware.DrawSprite(character.SpriteSheet,(short)(character.X -
                     level.XMap), (short)(character.Y - level.YMap), 
                     character.SpriteX, character.SpriteY, 
                     Character.SPRITE_WIDTH, Character.SPRITE_HEIGHT);
 
                 // Testing the text and the drawing of blocks from an image
-                hardware.WriteText("LArrow -> Move Left", 80, 65, 255, 0,
+                hardware.WriteText("LArrow -> Move Left", 500, 65, 255, 0,
                     0, font18);
-                hardware.WriteText("RArrow -> Move Right", 80, 95, 255, 0,
+                hardware.WriteText("RArrow -> Move Right", 500, 95, 255, 0,
                     0, font18);
-                hardware.WriteText("Space -> Jump", 80, 125, 255, 0,
+                hardware.WriteText("Space -> Jump", 500, 125, 255, 0,
                     0, font18);
-                hardware.WriteText("Esc -> Exit Game", 80, 155, 255, 0,
+                hardware.WriteText("Esc -> Exit Game", 500, 155, 255, 0,
                     0, font18);
-                hardware.WriteText("Shift -> Reset position", 80, 185, 255, 0,
+                hardware.WriteText("Shift -> Reset position", 500, 185, 255, 0,
                     0, font18);
 
                 // Drawing the blocks and traps from the level
@@ -118,11 +129,20 @@ namespace TheLastJumper
                         Collectible.SPRITE_HEIGHT);
                 }
 
+                // Draw an enemy to test
+                hardware.DrawSprite(enemyImg, (short)(400 - level.XMap),
+                    (short)(430 - level.YMap), 0, 0,
+                    120, 120);
+
+                hardware.DrawSprite(enemyImg, (short)(650 - level.XMap),
+                    (short)(800 - level.YMap), 0, 0,
+                    120, 120);
+
                 /*foreach (GroundEnemy g in level.Enemies)
                 {
                     hardware.DrawSprite(GroundEnemy.SpriteGroundEnemy, 
                         (short)(g.X - level.XMap), (short)(g.Y - level.YMap), 
-                        g.SpriteX, g.SpriteY, GroundEnemy.SPRITE_WIDTH, 
+                        0, 0, GroundEnemy.SPRITE_WIDTH, 
                         GroundEnemy.SPRITE_HEIGHT);
                 }
 
@@ -130,8 +150,8 @@ namespace TheLastJumper
                 {
                     hardware.DrawSprite(FlyingEnemy.SpriteFlyingEnemy,
                         (short)(f.X - level.XMap), (short)(f.Y - level.YMap),
-                        f.SpriteX, f.SpriteY, GroundEnemy.SPRITE_WIDTH,
-                        GroundEnemy.SPRITE_HEIGHT);
+                        0, 0, FlyingEnemy.SPRITE_WIDTH,
+                        FlyingEnemy.SPRITE_HEIGHT);
                 }*/
 
                 // Updating the screen
