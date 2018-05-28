@@ -1,5 +1,9 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.11: Fixed some scroll bugs and improved the movement. Added the first 
+ * version of the walljumping and deleted the alternate method to work with
+ * the collisions.
+ * 
  * V0.07: Fixed the scroll issues: it was a problem with the reading of the
  * level and some conditions that were using the width and height of the
  * gamecontroller.
@@ -27,7 +31,7 @@ namespace TheLastJumper
         public const byte STEP_LENGTH = 5;
         public const byte SPRITE_WIDTH = 64;
         public const byte SPRITE_HEIGHT = 64;
-        public const byte MAX_VERTICAL_SPEED = 35;
+        public const byte MAX_VERTICAL_SPEED = 40;
 
         public bool IsDead { get; set; }
         public bool IsJumping { get; set; }
@@ -35,6 +39,7 @@ namespace TheLastJumper
         public bool IsFalling { get; set; }
         public bool IsMovingLeft { get; set; }
         public bool IsMovingRight { get; set; }
+        public bool OnTheWall { get; set; }
         public Image SpriteSheet { get; set; }
         public float SpeedX { get; set; }
         public float SpeedY { get; set; }
@@ -53,6 +58,7 @@ namespace TheLastJumper
             IsOver = false;
             IsMovingLeft = true;
             IsMovingRight = true;
+            OnTheWall = false;
             HitboxWidth = 40;
             HitboxHeight = 40;
             SpeedX = 0;
@@ -95,6 +101,27 @@ namespace TheLastJumper
             bool resetPressed = hardware.IsKeyPressed(Hardware.KEY_SHIFT);
             float gravity = 1.8f;
 
+            // Walljumping
+            if(OnTheWall)
+            {
+                SpeedY = 1 * (hardware.DeltaTime / 10);
+                if(this.Y + SpeedY < Level.Height - 
+                    (SPRITE_HEIGHT + Block.SPRITE_HEIGHT))
+                {
+                    this.Y += SpeedY;
+                    if(upPressed)
+                    {
+                        IsJumping = true;
+                        OnTheWall = false;
+                    }
+                }
+                else
+                {
+                    OnTheWall = false;
+                    IsFalling = true;
+                }
+            }
+
             // Jumping calculations
             if (IsJumping)
             {
@@ -103,22 +130,19 @@ namespace TheLastJumper
                 {
                     SpeedY += -gravity * (hardware.DeltaTime / 10);
                     this.Y += SpeedY;
-                    // Level scroll
-                    if (Level.YMap > 0)
-                        //Level.YMap += (short)SpeedY;
-
-                    if (rightPressed)
+                    
+                    if (rightPressed && IsMovingRight)
                     {
-                        SpeedX += STEP_LENGTH * (hardware.DeltaTime / 30);
+                        SpeedX = STEP_LENGTH * (hardware.DeltaTime / 30);
                         this.X += SpeedX;
                         // Level scroll
                         if (Level.XMap < Level.Width - 
                             GameController.SCREEN_WIDTH)
                             Level.XMap += (short)SpeedX;
                     }
-                    else if (leftPressed)
+                    else if (leftPressed && IsMovingLeft)
                     {
-                        SpeedX += STEP_LENGTH * (hardware.DeltaTime / 30);
+                        SpeedX = STEP_LENGTH * (hardware.DeltaTime / 30);
                         this.X -= SpeedX;
                         // Level scroll
                         if (Level.XMap > 0)
@@ -137,38 +161,37 @@ namespace TheLastJumper
             {
                 this.Animate(MovableSprite.SpriteMovement.DOWN);
                 SpeedY += STEP_LENGTH * (hardware.DeltaTime / 10);
-                if (this.Y < Level.Height - SPRITE_HEIGHT)
+                if (this.Y + SpeedY < Level.Height - 
+                    (SPRITE_HEIGHT + Block.SPRITE_HEIGHT))
                 {
                     this.Y += SpeedY;
-                    // Level scroll
-                    if (Level.YMap < Level.Height - 
-                        GameController.SCREEN_HEIGHT)
-                        //Level.YMap += (short)SpeedY;
-                    if (rightPressed)
+                    
+                    if (rightPressed && IsMovingRight)
                     {
-                        SpeedX += STEP_LENGTH * (hardware.DeltaTime / 30);
+                        SpeedX = STEP_LENGTH * (hardware.DeltaTime / 30) * 
+                            gravity;
                         this.X += SpeedX;
                         // Level scroll
                         if (Level.XMap < Level.Width - 
                             GameController.SCREEN_WIDTH)
                             Level.XMap += (short)SpeedX;
                     }
-                    else if (leftPressed)
+                    else if (leftPressed && IsMovingLeft)
                     {
-                        SpeedX += STEP_LENGTH * (hardware.DeltaTime / 30);
+                        SpeedX = STEP_LENGTH * (hardware.DeltaTime / 30) * 
+                            gravity;
                         this.X -= SpeedX;
                         // Level scroll
                         if (Level.XMap > 0)
                             Level.XMap -= (short)SpeedX;
                     }
                 }
-                else if (this.Y + SPRITE_HEIGHT >= Level.Height)
+                else
                 {
                     IsFalling = false;
                     SpeedY = 0;
-                    SpeedX = 0;
-                    this.MoveTo(this.X,
-                        (Level.Height - Block.SPRITE_HEIGHT) - SPRITE_HEIGHT);
+                    MoveTo(X, (Level.Height - (Block.SPRITE_HEIGHT 
+                        + SPRITE_HEIGHT)));
                 }
             }
 
@@ -187,7 +210,7 @@ namespace TheLastJumper
             if (leftPressed && IsMovingLeft)
             {
                 this.Animate(MovableSprite.SpriteMovement.LEFT);
-                SpeedX = STEP_LENGTH * (hardware.DeltaTime / 30);
+                SpeedX = STEP_LENGTH * (hardware.DeltaTime / 30) * gravity;
                 if (this.X + SpeedX > 0)
                 {
                     this.X -= SpeedX;
@@ -201,7 +224,7 @@ namespace TheLastJumper
             if (rightPressed && IsMovingRight)
             {
                 this.Animate(MovableSprite.SpriteMovement.RIGHT);
-                SpeedX = STEP_LENGTH * (hardware.DeltaTime / 30);
+                SpeedX = STEP_LENGTH * (hardware.DeltaTime / 30) * gravity;
                 if (this.X + SpeedX < Level.Width - HitboxWidth)
                 {
                     this.X += SpeedX;
@@ -234,11 +257,15 @@ namespace TheLastJumper
             if (Level.YMap < 0)
             {
                 Level.YMap = 0;
-            }                
+            }
             else if (Level.YMap > Level.Height - GameController.SCREEN_HEIGHT)
             {
-                Level.YMap = (short)(Level.Height - 
+                Level.YMap = (short)(Level.Height -
                     GameController.SCREEN_HEIGHT);
+            }
+            else if (this.Y <= Level.Height / 2)
+            {
+                Level.YMap += (short)SpeedY;
             }
 
             // Character limitations (This can change in future versions)   
@@ -250,22 +277,6 @@ namespace TheLastJumper
             {
                 this.X = (short)(Level.Width - SPRITE_WIDTH);
             }
-               
-            if (this.Y - Level.YMap < 0)
-            {
-                this.Y = 0;
-            }
-        }
-
-        // Method that calculates the different collisions of the character.
-        public void CollidesWithMovement(float x, float y, short width, 
-            short height)
-        {
-             if ((X + HitboxWidth >= x && X <= x + width) && (Y + 
-                 HitboxWidth >= y && Y <= y + height))
-             {
-                 IsMovingLeft = false;
-             }
         }
     }
 }

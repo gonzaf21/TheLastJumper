@@ -1,5 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.11: Changed the spritesheet.
+ * 
  * V0.10: Implemented this class that inherits from the enemy and use it
  * to show it in game.
  */
@@ -11,7 +13,7 @@ namespace TheLastJumper
         public const byte SPRITE_WIDTH = 50;
         public const byte SPRITE_HEIGHT = 50;
         public static Image SpriteGroundEnemy =
-            new Image("gameData/enemy2.png", 920, 920);
+            new Image("gameData/enemyground.png", 480, 180);
 
         public GroundEnemy(short x, short y) : base(x, y)
         {

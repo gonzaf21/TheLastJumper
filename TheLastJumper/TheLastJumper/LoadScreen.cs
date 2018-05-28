@@ -1,5 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.11: Draw the keys that the user can use on this screen.
+ * 
  * V0.09: Ability to select and display all the levels cleared by reading
  * from the file and changing between them to load the one we want.
  * Added DrawInColor method.
@@ -24,12 +26,14 @@ namespace TheLastJumper
         protected Font font;
         protected List<string> levelsCleared;
         protected Image imageBG;
+        protected Image controls;
 
         public LoadScreen(Hardware hardware) : base(hardware)
         {
             font = new Font("gameData/AgencyFB.ttf", 50);
             levelsCleared = LoadSelectableLevels();
             imageBG = new Image("gameData/loadImg.png", 800, 600);
+            controls = new Image("gameData/controls.png", 256, 546);
             NumLevel = 0;
         }
 
@@ -64,6 +68,7 @@ namespace TheLastJumper
             {
                 hardware.ClearScreen();
                 hardware.DrawImage(imageBG);
+                hardware.DrawSprite(controls, 520, 540, 0, 60, 256, 50);
                 
                 for(int i = 0; i < totalLevels; i++)
                 {
@@ -102,13 +107,13 @@ namespace TheLastJumper
             if (color == "red")
             {
                 levelNames[num] = SdlTtf.TTF_RenderText_Solid(
-                font.GetFontType(), levelsCleared[num],
+                font.GetFontType(), levelsCleared[num].Substring(3),
                 hardware.red);
             }
             else if(color == "white")
             {
                 levelNames[num] = SdlTtf.TTF_RenderText_Solid(
-                font.GetFontType(), levelsCleared[num],
+                font.GetFontType(), levelsCleared[num].Substring(3),
                 hardware.white);
             }
         }

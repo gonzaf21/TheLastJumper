@@ -1,5 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.11: Added a timer to tell the time passed
+ * 
  * V0.10: Changes to draw collectibles, the exit door and enemies in game, as
  * well as adding another constructor to load levels in a better way.
  * 
@@ -33,6 +35,7 @@
  */
 
 using Tao.Sdl;
+using System;
 using System.Threading;
 
 namespace TheLastJumper
@@ -41,35 +44,31 @@ namespace TheLastJumper
     {
         protected Image background;
         protected Character character;
-        protected Font font40;
         protected Font font18;
         protected float previousTime;
         protected float currentTime;
         protected Level level;
         protected bool gameOver;
-        protected short numOfTheLevel = 0;
+        protected short numOfTheLevel;
         protected Image doorImg;
         protected Image enemyImg;
+        protected Image controls;
+        protected int points;
+        protected int time;
+        protected IntPtr textPoints, textTime;
 
-        public GameScreen(Hardware hardware) : base(hardware)
+        public GameScreen(Hardware hardware, short numLevel) : base(hardware)
         {
             background = new Image("gameData/forestbg2x.png", 2553, 1487);
             level = new Level(Level.GetLevelName(numOfTheLevel));
             character = new Character(hardware);
             character.Level = level;
             character.MoveTo(level.XStart, level.YStart);
-            font40 = new Font("gameData/AgencyFB.ttf", 50);
             font18 = new Font("gameData/AgencyFB.ttf", 28);
             previousTime = 0;
             gameOver = false;
             doorImg = new Image("gameData/door.png", 200, 267);
             enemyImg = new Image("gameData/enemy2.png", 920, 920);
-        }
-
-        //Another constructor to load the level selected
-        public GameScreen(Hardware hardware, short numLevel) : this(hardware)
-        {
-            numOfTheLevel = numLevel;
         }
 
         public override void Show()
@@ -160,7 +159,7 @@ namespace TheLastJumper
                 // Collisions
                 foreach (Block b in level.Blocks)
                 {
-                    character.CollidesWithMovement(b.X, b.Y, Block.SPRITE_WIDTH,
+                    character.CollidesWith(b.X, b.Y, Block.SPRITE_WIDTH,
                         Block.SPRITE_HEIGHT);
                 }
 
@@ -182,7 +181,7 @@ namespace TheLastJumper
                 if (character.IsDead)
                 {
                     hardware.WriteText("You are dead...", (short)character.X,
-                        (short)character.Y, 255, 0, 0, font40);
+                        (short)character.Y, 255, 0, 0, font18);
                     Thread.Sleep(100);
                     character.IsDead = false;
                     character.IsFalling = false;
