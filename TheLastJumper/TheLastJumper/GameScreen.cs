@@ -1,6 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
- * V0.11: Added a timer to tell the time passed
+ * V0.11: Added a timer to tell the time passed, improved the collisions, 
+ * added points and time in game and displayed an image of the controls.
  * 
  * V0.10: Changes to draw collectibles, the exit door and enemies in game, as
  * well as adding another constructor to load levels in a better way.
@@ -60,6 +61,9 @@ namespace TheLastJumper
         public GameScreen(Hardware hardware, short numLevel) : base(hardware)
         {
             background = new Image("gameData/forestbg2x.png", 2553, 1487);
+            controls = new Image("gameData/controls.png", 256, 546);
+            Level.SetLevels();
+            numOfTheLevel = numLevel;
             level = new Level(Level.GetLevelName(numOfTheLevel));
             character = new Character(hardware);
             character.Level = level;
@@ -68,13 +72,26 @@ namespace TheLastJumper
             previousTime = 0;
             gameOver = false;
             doorImg = new Image("gameData/door.png", 200, 267);
-            enemyImg = new Image("gameData/enemy2.png", 920, 920);
+            enemyImg = new Image("gameData/enemyair.png", 600, 120);
+            points = 0;
+            time = 0;
+            textTime = SdlTtf.TTF_RenderText_Solid(font18.GetFontType(),
+                "TIME: ", hardware.red);
+            textPoints = SdlTtf.TTF_RenderText_Solid(font18.GetFontType(),
+                "POINTS:", hardware.red);
+        }
+        
+        // Method to update the time with the timer
+        protected void CountTime(Object o)
+        {
+            time++;
         }
 
         public override void Show()
         {
             // First time initialized
             currentTime = Sdl.SDL_GetTicks();
+            Timer timer = new Timer(this.CountTime, null, 1000, 1000);
             do
             {
                 // Clearing the screen
@@ -93,19 +110,19 @@ namespace TheLastJumper
                     character.SpriteX, character.SpriteY, 
                     Character.SPRITE_WIDTH, Character.SPRITE_HEIGHT);
 
-                // Testing the text and the drawing of blocks from an image
-                hardware.WriteText("LArrow -> Move Left", 500, 65, 255, 0,
-                    0, font18);
-                hardware.WriteText("RArrow -> Move Right", 500, 95, 255, 0,
-                    0, font18);
-                hardware.WriteText("Space -> Jump", 500, 125, 255, 0,
-                    0, font18);
-                hardware.WriteText("Esc -> Exit Game", 500, 155, 255, 0,
-                    0, font18);
-                hardware.WriteText("Shift -> Reset position", 500, 185, 255, 0,
-                    0, font18);
+                hardware.DrawSprite(controls, 540, 10, 0, 441, 256, 105);
 
-                // Drawing the blocks and traps from the level
+                // Points and time
+                hardware.WriteTextRender(textPoints, 70, 10);
+                hardware.WriteTextRender(textTime, 200, 10);
+
+                textTime = SdlTtf.TTF_RenderText_Solid(font18.GetFontType(),
+                    "TIME: " + time, hardware.red);
+                textPoints = SdlTtf.TTF_RenderText_Solid(font18.GetFontType(),
+                    "POINTS:" + points, hardware.red);
+
+                // Drawing the blocks, traps, collectibles and enemies 
+                // from the level.
                 foreach(Block b in level.Blocks)
                 {
                     hardware.DrawSprite(Block.SpriteBlock, (short)(b.X - 
@@ -131,43 +148,94 @@ namespace TheLastJumper
                 // Draw an enemy to test
                 hardware.DrawSprite(enemyImg, (short)(400 - level.XMap),
                     (short)(430 - level.YMap), 0, 0,
-                    120, 120);
+                    60, 60);
 
                 hardware.DrawSprite(enemyImg, (short)(650 - level.XMap),
                     (short)(800 - level.YMap), 0, 0,
-                    120, 120);
+                    60, 60);
 
-                /*foreach (GroundEnemy g in level.Enemies)
+                /*foreach(Enemy e in level.Enemies)
                 {
-                    hardware.DrawSprite(GroundEnemy.SpriteGroundEnemy, 
-                        (short)(g.X - level.XMap), (short)(g.Y - level.YMap), 
-                        0, 0, GroundEnemy.SPRITE_WIDTH, 
+                    if(e is GroundEnemy)
+                    {
+                        hardware.DrawSprite(GroundEnemy.SpriteGroundEnemy,
+                        (short)(((GroundEnemy)(e)).X - level.XMap), 
+                        (short)(((GroundEnemy)(e)).Y - level.YMap),
+                        0, 0, GroundEnemy.SPRITE_WIDTH,
                         GroundEnemy.SPRITE_HEIGHT);
-                }
-
-                foreach (FlyingEnemy f in level.Enemies)
-                {
-                    hardware.DrawSprite(FlyingEnemy.SpriteFlyingEnemy,
-                        (short)(f.X - level.XMap), (short)(f.Y - level.YMap),
+                    }
+                    else if(e is FlyingEnemy)
+                    {
+                        hardware.DrawSprite(FlyingEnemy.SpriteFlyingEnemy,
+                        (short)(e.X - level.XMap), (short)(e.Y - level.YMap),
                         0, 0, FlyingEnemy.SPRITE_WIDTH,
                         FlyingEnemy.SPRITE_HEIGHT);
+                    }
                 }*/
 
                 // Updating the screen
                 hardware.UpdateScreen();
 
-                // Collisions
+                // Collisions with blocks
                 foreach (Block b in level.Blocks)
                 {
-                    character.CollidesWith(b.X, b.Y, Block.SPRITE_WIDTH,
-                        Block.SPRITE_HEIGHT);
+                    if (character.CollidesWith(b.X, b.Y, Block.SPRITE_WIDTH,
+                        Block.SPRITE_HEIGHT))
+                    {
+                        character.IsMovingLeft = false;
+                        character.IsMovingRight = false;
+                        character.IsOver = false;
+
+                        if(b.X > character.X)
+                        {
+                            character.IsMovingLeft = true;
+                            if(character.IsJumping)
+                            {
+                                character.IsJumping = false;
+                                character.IsFalling = false;
+                                character.OnTheWall = true;
+                            }
+                        }
+                        else if(b.X < character.X)
+                        {
+                            character.IsMovingRight = true;
+                            if(character.IsJumping)
+                            {
+                                character.IsJumping = false;
+                                character.IsFalling = false;
+                                character.OnTheWall = true;
+                            }
+                        }
+                    }
+                    else if(character.CollidesWith(b.X, b.Y, Block.SPRITE_WIDTH,
+                       Block.SPRITE_HEIGHT) && b.Y >= character.Y +
+                       Character.SPRITE_HEIGHT * 0.9)
+                    {
+                        character.IsFalling = false;
+                        character.IsOver = true;
+                        character.MoveTo(character.X, b.Y -
+                            Character.SPRITE_HEIGHT);
+                    }
                 }
 
+                // Traps that kill the character
                 foreach(Trap t in level.Traps)
                 {
                     if (character.CollidesWith(t.X, t.Y - t.HitboxHeight,
                         Trap.SPRITE_WIDTH, Trap.SPRITE_HEIGHT))
                         character.IsDead = true;
+                }
+
+                // Picks the collectibles and adds the score to the player
+                for(int i = 0; i < level.Collectibles.Count; i++)
+                {
+                    if(character.CollidesWith(level.Collectibles[i].X,
+                        level.Collectibles[i].Y, Collectible.SPRITE_WIDTH,
+                        Collectible.SPRITE_HEIGHT))
+                    {
+                        points += 50;
+                        level.Collectibles.RemoveAt(i);
+                    }
                 }
 
                 // Move character
@@ -176,6 +244,7 @@ namespace TheLastJumper
                 // Set the value of the booleans of movement after collisions
                 character.IsMovingLeft = true;
                 character.IsMovingRight = true;
+                character.IsOver = false;
 
                 // Character's death
                 if (character.IsDead)

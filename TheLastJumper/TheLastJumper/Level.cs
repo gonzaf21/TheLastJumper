@@ -1,5 +1,9 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.11: Added new traps with different orientation and a method to 
+ * read the level files and load them on the array rather than having them
+ * static and predefined.
+ * 
  * v0.10: Added enemies and collectibles.
  * 
  * V0.08: Finished the saving of the levels on a file and only writing the 
@@ -38,9 +42,7 @@ namespace TheLastJumper
         public List<Enemy> Enemies { get; set; }
         public List<Trap> Traps { get; set; }
         public List<Collectible> Collectibles { get; set; }
-        protected static string[] levelNames = 
-            { "gameData/levels/leveltest.txt",
-            "gameData/levels/levelTutorial.txt" };
+        protected static string[] levelNames;
 
         public Level(string levelFile)
         {
@@ -99,6 +101,21 @@ namespace TheLastJumper
                                 {
                                     Traps.Add(new Trap(i * Block.SPRITE_WIDTH,
                                         numHeight * Block.SPRITE_HEIGHT, 's'));
+                                }
+                                else if (elements[i] == "Q")
+                                {
+                                    Traps.Add(new Trap(i * Block.SPRITE_WIDTH,
+                                        numHeight * Block.SPRITE_HEIGHT, 'l'));
+                                }
+                                else if (elements[i] == "W")
+                                {
+                                    Traps.Add(new Trap(i * Block.SPRITE_WIDTH,
+                                        numHeight * Block.SPRITE_HEIGHT, 'w'));
+                                }
+                                else if (elements[i] == "Y")
+                                {
+                                    Traps.Add(new Trap(i * Block.SPRITE_WIDTH,
+                                        numHeight * Block.SPRITE_HEIGHT, 'y'));
                                 }
                                 else if(elements[i] == "X")
                                 {
@@ -202,6 +219,22 @@ namespace TheLastJumper
         public static string GetLevelName(short num)
         {
             return levelNames[num];
+        }
+
+        // To set the array of levels
+        public static void SetLevels()
+        {
+            string[] allFiles = Directory.GetFiles("gameData/levels");
+            levelNames = new string[allFiles.Length];
+            for (int i = 0; i < allFiles.Length; i++)
+            {
+                if (allFiles[i].Contains("_") && allFiles[i].EndsWith(".txt"))
+                {
+                    int pos = allFiles[i].LastIndexOf("\\") + 1;
+                    levelNames[i] = "gameData/levels/" +
+                        allFiles[i].Substring(pos);
+                }
+            }
         }
     }
 }
