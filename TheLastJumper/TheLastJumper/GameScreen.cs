@@ -1,5 +1,8 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.12: Added the call to the method to save the score and changed the
+ * visibility of some attributes of this class.
+ * 
  * V0.11: Added a timer to tell the time passed, improved the collisions, 
  * added points and time in game and displayed an image of the controls.
  * 
@@ -50,11 +53,11 @@ namespace TheLastJumper
         protected float currentTime;
         protected Level level;
         protected bool gameOver;
-        protected short numOfTheLevel;
+        public static short numOfTheLevel;
         protected Image doorImg;
         protected Image enemyImg;
         protected Image controls;
-        protected int points;
+        public static int points;
         protected int time;
         protected IntPtr textPoints, textTime;
 
@@ -209,7 +212,7 @@ namespace TheLastJumper
                     }
                     else if(character.CollidesWith(b.X, b.Y, 
                        Block.SPRITE_WIDTH, Block.SPRITE_HEIGHT) 
-                       && b.Y >= character.Y + Character.SPRITE_HEIGHT * 0.9)
+                       && b.Y <= character.Y + Character.SPRITE_HEIGHT)
                     {
                         character.IsFalling = false;
                         character.IsOver = true;
@@ -271,6 +274,11 @@ namespace TheLastJumper
                 {
                     // Saving the progression of the levels
                     level.SaveLevel(numOfTheLevel);
+
+                    // Saves the player's name and score
+                    ScoreBoard score = new ScoreBoard(hardware);
+                    score.EnterScore();
+
                     numOfTheLevel++;
 
                     // Loading the new level
