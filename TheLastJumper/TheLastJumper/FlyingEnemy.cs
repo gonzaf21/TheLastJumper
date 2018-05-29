@@ -1,5 +1,8 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.12: Changed the sprite width and height so they are on the inherited 
+ * class.
+ * 
  * V0.11: Changed the spritesheet of this enemy.
  * 
  * V0.10: Implemented this class that inherits from the enemy and use it
@@ -10,8 +13,6 @@ namespace TheLastJumper
 {
     class FlyingEnemy : Enemy
     {
-        public const byte SPRITE_WIDTH = 50;
-        public const byte SPRITE_HEIGHT = 50;
         public static Image SpriteFlyingEnemy =
             new Image("gameData/enemyair.png", 600, 120);
 
@@ -33,13 +34,15 @@ namespace TheLastJumper
             UpdateSpriteCoordinates();
         }
 
-        public void MoveEnemy()
+        public override void MoveEnemy()
         {
             do
             {
                 // Collision detection and moving right or left placeholder
                 Animate(SpriteMovement.LEFT);
                 Animate(SpriteMovement.RIGHT);
+
+                // TODO
             } while (!IsDead);
         }
     }

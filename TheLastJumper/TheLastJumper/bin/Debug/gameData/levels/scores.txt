@@ -1,0 +1,2 @@
+GMF;200;level1
+JFK;500;level2

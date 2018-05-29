@@ -207,9 +207,9 @@ namespace TheLastJumper
                             }
                         }
                     }
-                    else if(character.CollidesWith(b.X, b.Y, Block.SPRITE_WIDTH,
-                       Block.SPRITE_HEIGHT) && b.Y >= character.Y +
-                       Character.SPRITE_HEIGHT * 0.9)
+                    else if(character.CollidesWith(b.X, b.Y, 
+                       Block.SPRITE_WIDTH, Block.SPRITE_HEIGHT) 
+                       && b.Y >= character.Y + Character.SPRITE_HEIGHT * 0.9)
                     {
                         character.IsFalling = false;
                         character.IsOver = true;

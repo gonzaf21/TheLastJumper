@@ -23,8 +23,8 @@ namespace TheLastJumper
         {
             X = x;
             Y = y;
-            HitboxHeight = 15;
             HitboxHeight = 50;
+            HitboxWidth = 50;
             SetTypeOfTrap(type);
         }
 
