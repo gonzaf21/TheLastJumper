@@ -1,5 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.13: Fixed some bugs with the save system.
+ * 
  * V0.11: Added new traps with different orientation and a method to 
  * read the level files and load them on the array rather than having them
  * static and predefined.
@@ -186,13 +188,44 @@ namespace TheLastJumper
         {
             try
             {
-                StreamWriter fileWriter = File.AppendText(
+                // Checking first the levels written on the file
+                StreamReader fileReader = File.OpenText(
                     "gameData/levels/levelsCleared.txt");
-                int pos = levelNames[levelNum].LastIndexOf("/") + 1;
-                fileWriter.WriteLine(
-                    (levelNames[levelNum]).Substring(pos, 
-                        levelNames[levelNum].LastIndexOf(".") - pos));
-                fileWriter.Close();
+                List<string> auxLevels = new List<string>();
+                bool check = false;
+                string line;
+
+                do
+                {
+                    line = fileReader.ReadLine();
+                    if (line != null)
+                        auxLevels.Add(line);
+                } while (line != null);
+
+                fileReader.Close();
+
+                // Comparing the level names
+                foreach(string s in auxLevels)
+                {
+                    if (s == levelNames[levelNum].Substring(
+                    levelNames[levelNum].LastIndexOf("/") + 1,
+                    levelNames[levelNum].LastIndexOf(".") -
+                    (levelNames[levelNum].LastIndexOf("/") + 1)))
+                    {
+                        check = true;
+                    }
+                }
+
+                if(!check)
+                {
+                    StreamWriter fileWriter = File.AppendText(
+                        "gameData/levels/levelsCleared.txt");
+                    int pos = levelNames[levelNum].LastIndexOf("/") + 1;
+                    fileWriter.WriteLine(
+                        (levelNames[levelNum]).Substring(pos,
+                            levelNames[levelNum].LastIndexOf(".") - pos));
+                    fileWriter.Close();
+                }
             }
             catch (FileNotFoundException)
             {

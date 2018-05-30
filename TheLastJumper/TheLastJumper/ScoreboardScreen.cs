@@ -1,5 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.13: Fixed some bugs and doing some changes in the methods.
+ * 
  * V0.12: Added new methods to load, save and write the input of the name of 
  * the player after completing a level.
  * 
@@ -31,19 +33,31 @@ namespace TheLastJumper
         protected Image imgScore;
         protected Image controls;
         protected Font font;
+        protected Font fontSmall;
         protected List<InfoPlayer> info;
 
         public ScoreBoard(Hardware hardware) : base(hardware)
         {
             font = new Font("gameData/AgencyFB.ttf", 70);
+            fontSmall = new Font("gameData/AgencyFB.ttf", 30);
             imgScore = new Image("gameData/scoreImg.png", 800, 600);
             controls = new Image("gameData/controls.png", 256, 546);
             info = new List<InfoPlayer>();
+            LoadScore();
         }
 
         public override void Show()
         {
             int keyPressed;
+            short count = 100;
+            short[] posY = new short[info.Count];
+
+            // To set the Y coordinate for every line displayed
+            for(int i = 0; i < info.Count; i++)
+            {
+                posY[i] += count;
+                count += 40;
+            }
 
             do
             {
@@ -54,15 +68,16 @@ namespace TheLastJumper
                 hardware.DrawImage(imgScore);
                 hardware.DrawSprite(controls, 700, 540, 0, 115, 60, 50);
 
-                // Here it will load the list of scores from the file (TODO)
                 hardware.WriteText("SCORES", 320, 10, 255, 204, 0, font);
                 hardware.WriteText("---------", 320, 40, 255, 204, 0, font);
-                hardware.WriteText("GMF - 420 points", 150, 100, 204, 0,
-                    0, font);
-                hardware.WriteText("VTA - 21 points", 150, 200, 204, 0,
-                    0, font);
-                hardware.WriteText("MGA - 1100 points", 150, 300, 204, 0,
-                    0, font);
+
+                for(int i = 0; i < info.Count; i++)
+                {
+                    InfoPlayer infoP = info[i];
+                    hardware.WriteText(infoP.playerName + "-" +
+                        infoP.playerScore + "-" + infoP.level, 50,
+                        posY[i], 204, 0, 0, fontSmall);
+                }
 
                 hardware.UpdateScreen();
             } while (keyPressed != Hardware.KEY_ESC);
@@ -126,6 +141,7 @@ namespace TheLastJumper
         {
             string fileName = "gameData/levels/scores.txt";
             string[] splitInfo = newInfo.Split(';');
+            bool check = false;
 
             try
             {
@@ -137,31 +153,29 @@ namespace TheLastJumper
                     if (info[i].playerName != splitInfo[0]
                         && info[i].level != splitInfo[2])
                     {
-                        InfoPlayer infoP;
-                        infoP.playerName = splitInfo[0];
-                        infoP.playerScore = Convert.ToInt32(splitInfo[1]);
-                        infoP.level = splitInfo[2];
-                        info.Add(infoP);
-
-                        fileWriter.WriteLine(splitInfo[0] + ";" +
-                            splitInfo[1] + ";" + splitInfo[2]);
+                        check = true;
                     }
                     else if(info[i].playerName == splitInfo[0]
                         && info[i].level == splitInfo[2]
                         && info[i].playerScore < Convert.ToInt32(splitInfo[1]))
                     {
                         info.RemoveAt(i);
-
-                        InfoPlayer infoP;
-                        infoP.playerName = splitInfo[0];
-                        infoP.playerScore = Convert.ToInt32(splitInfo[1]);
-                        infoP.level = splitInfo[2];
-                        info.Add(infoP);
-
-                        fileWriter.WriteLine(splitInfo[0] + ";" +
-                            splitInfo[1] + ";" + splitInfo[2]);
+                        check = true;                        
                     }
                 }
+
+                if(check)
+                {
+                    InfoPlayer infoP;
+                    infoP.playerName = splitInfo[0];
+                    infoP.playerScore = Convert.ToInt32(splitInfo[1]);
+                    infoP.level = splitInfo[2];
+                    info.Add(infoP);
+
+                    fileWriter.WriteLine(splitInfo[0] + ";" +
+                        splitInfo[1] + ";" + splitInfo[2]);
+                }
+
                 fileWriter.Close();
             }
             catch (FileNotFoundException)
@@ -197,7 +211,12 @@ namespace TheLastJumper
             {
                 hardware.ClearScreen();
                 hardware.DrawImage(imgScore);
-                hardware.WriteTextRender(input, 20, 20);
+                hardware.DrawSprite(controls, 650, 540, 105, 0, 150, 60);
+                hardware.WriteText("Enter your name:", 230, 10, 255, 204,
+                    0, font);
+                hardware.WriteText("-------------------", 230, 40, 255, 204,
+                    0, font);
+                hardware.WriteTextRender(input, 20, 120);
                 input = SdlTtf.TTF_RenderText_Solid(font.GetFontType(),
                 name, hardware.red);
 
@@ -312,9 +331,14 @@ namespace TheLastJumper
 
             } while (keyPressed != Hardware.KEY_SPACE);
 
-            string allInfo = name + ";" + GameScreen.points + ";level" + 
+            string allInfo;
+            if(name != "")
+                allInfo = name + ";" + GameScreen.points + ";level" + 
                 GameScreen.numOfTheLevel;
-            
+            else
+                allInfo = "Unknown;" + GameScreen.points + ";level" +
+                GameScreen.numOfTheLevel;
+
             // Calls the method to save the info
             SaveScore(allInfo);
         }

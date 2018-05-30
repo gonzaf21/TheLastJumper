@@ -14,7 +14,8 @@ namespace TheLastJumper
         const byte MOVEMENTS = 8;
         const byte SPRITE_CHANGE = 1;
 
-        public enum SpriteMovement { LEFT, UP, RIGHT, DOWN, STOOD };
+        public enum SpriteMovement { LEFT, UP, RIGHT, DOWN, STOOD,
+            WALL, FALL };
         public SpriteMovement CurrentDirection { get; set; }
         public byte CurrentSprite { get; set; }
         public int[][] SpriteXCoordinates = new int[MOVEMENTS][];

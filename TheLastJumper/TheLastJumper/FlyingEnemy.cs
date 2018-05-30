@@ -16,7 +16,7 @@ namespace TheLastJumper
         public static Image SpriteFlyingEnemy =
             new Image("gameData/enemyair.png", 600, 120);
 
-        public FlyingEnemy(short x, short y) : base(x, y)
+        public FlyingEnemy(float x, float y) : base(x, y)
         {
             HitboxHeight = 50;
             HitboxWidth = 50;
@@ -34,10 +34,12 @@ namespace TheLastJumper
             UpdateSpriteCoordinates();
         }
 
+        // The enemy follows the player
         public override void MoveEnemy()
         {
             do
             {
+                
                 // Collision detection and moving right or left placeholder
                 Animate(SpriteMovement.LEFT);
                 Animate(SpriteMovement.RIGHT);

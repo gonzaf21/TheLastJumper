@@ -221,6 +221,17 @@ namespace TheLastJumper
                     }
                 }
 
+                // Enemies colliding with blocks
+                foreach(Block b in level.Blocks)
+                {
+                    foreach(Enemy e in level.Enemies)
+                    {
+                        if (e.CollidesWith(b.X, b.Y, Block.SPRITE_WIDTH,
+                            Block.SPRITE_HEIGHT))
+                            e.Collided = true;
+                    }
+                }
+
                 // Traps that kill the character
                 foreach(Trap t in level.Traps)
                 {
@@ -241,8 +252,13 @@ namespace TheLastJumper
                     }
                 }
 
-                // Move character
+                // Move character and enemies
                 character.MoveCharacter();
+
+                foreach(Enemy e in level.Enemies)
+                {
+                    e.MoveEnemy();
+                }
 
                 // Set the value of the booleans of movement after collisions
                 character.IsMovingLeft = true;
@@ -267,10 +283,8 @@ namespace TheLastJumper
                 }
                 
                 // Transition between levels
-                if (character.X + character.HitboxWidth >= level.XEnd && 
-                    character.X <= level.XEnd && character.Y + 
-                    character.HitboxHeight >= level.YEnd && character.Y <=
-                    level.YEnd)
+                if (character.CollidesWith(level.XEnd, level.YEnd,
+                    Block.SPRITE_WIDTH, Block.SPRITE_HEIGHT))
                 {
                     // Saving the progression of the levels
                     level.SaveLevel(numOfTheLevel);

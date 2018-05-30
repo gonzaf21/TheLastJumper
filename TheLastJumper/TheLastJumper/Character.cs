@@ -90,6 +90,16 @@ namespace TheLastJumper
             SpriteYCoordinates[(int)MovableSprite.SpriteMovement.STOOD] =
                 new int[] { 512 };
 
+            SpriteXCoordinates[(int)MovableSprite.SpriteMovement.WALL] =
+                new int[] { 256 };
+            SpriteYCoordinates[(int)MovableSprite.SpriteMovement.WALL] =
+                new int[] { 320 };
+
+            SpriteXCoordinates[(int)MovableSprite.SpriteMovement.FALL] =
+                new int[] { 64 };
+            SpriteYCoordinates[(int)MovableSprite.SpriteMovement.FALL] =
+                new int[] { 320 };
+
             UpdateSpriteCoordinates();
         }
 
@@ -104,6 +114,7 @@ namespace TheLastJumper
             // Walljumping
             if(OnTheWall)
             {
+                this.Animate(MovableSprite.SpriteMovement.WALL);
                 SpeedY = 1 * (hardware.DeltaTime / 10);
                 if(this.Y + SpeedY < Level.Height - 
                     (SPRITE_HEIGHT + Block.SPRITE_HEIGHT))
@@ -192,6 +203,7 @@ namespace TheLastJumper
                     SpeedY = 0;
                     MoveTo(X, (Level.Height - (Block.SPRITE_HEIGHT 
                         + SPRITE_HEIGHT)));
+                    this.Animate(MovableSprite.SpriteMovement.FALL);
                 }
             }
 

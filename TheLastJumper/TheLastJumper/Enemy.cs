@@ -15,6 +15,7 @@ namespace TheLastJumper
         public const byte SPRITE_WIDTH = 50;
         public const byte SPRITE_HEIGHT = 50;
         public bool IsDead { get; set; }
+        public bool Collided { get; set; }
 
         public Enemy(float x, float y)
         {
