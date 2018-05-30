@@ -108,7 +108,8 @@ namespace TheLastJumper
             short x, short y, short width, short height)
         {
             Sdl.SDL_Rect src = new Sdl.SDL_Rect(x, y, width, height);
-            Sdl.SDL_Rect dest = new Sdl.SDL_Rect(xScreen, yScreen, width, height);
+            Sdl.SDL_Rect dest = new Sdl.SDL_Rect(xScreen, yScreen, width, 
+                height);
             Sdl.SDL_BlitSurface(image.ImagePtr, ref src, screen, ref dest);
         }
 

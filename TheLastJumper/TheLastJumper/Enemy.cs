@@ -1,5 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.13: New method to set the character and use it for the movement.
+ * 
  * V0.12: Added the virtual method of movement so the classes that inherit
  * from this can override it if needed.
  * 
@@ -16,6 +18,7 @@ namespace TheLastJumper
         public const byte SPRITE_HEIGHT = 50;
         public bool IsDead { get; set; }
         public bool Collided { get; set; }
+        protected static Character character;
 
         public Enemy(float x, float y)
         {
@@ -25,12 +28,16 @@ namespace TheLastJumper
 
         public virtual void MoveEnemy()
         {
-            do
-            {
-                // Collision detection and moving right or left placeholder
-                Animate(SpriteMovement.LEFT);
-                Animate(SpriteMovement.RIGHT);
-            } while (!IsDead);
+        }
+
+        public virtual void DrawEnemy(Level l)
+        {
+        }
+
+        // To set the character and use its coordinates
+        public static void SetCharacter(Character c)
+        {
+            character = c;
         }
     }
 }

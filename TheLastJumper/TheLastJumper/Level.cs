@@ -135,8 +135,7 @@ namespace TheLastJumper
                                         new Collectible(i * Block.SPRITE_WIDTH,
                                         numHeight * Block.SPRITE_HEIGHT));
                                 }
-                                /*
-                                else if(elements[i] == "F")
+                                /*else if(elements[i] == "F")
                                 {
                                     Enemies.Add(new GroundEnemy(
                                         (short)(i * Block.SPRITE_WIDTH), 

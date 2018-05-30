@@ -148,7 +148,7 @@ namespace TheLastJumper
                         Collectible.SPRITE_HEIGHT);
                 }
 
-                // Draw an enemy to test
+                // Drawing the enemies
                 hardware.DrawSprite(enemyImg, (short)(400 - level.XMap),
                     (short)(430 - level.YMap), 0, 0,
                     60, 60);
@@ -157,24 +157,10 @@ namespace TheLastJumper
                     (short)(800 - level.YMap), 0, 0,
                     60, 60);
 
-                /*foreach(Enemy e in level.Enemies)
+                for(int i = 0; i < level.Enemies.Count; i++)
                 {
-                    if(e is GroundEnemy)
-                    {
-                        hardware.DrawSprite(GroundEnemy.SpriteGroundEnemy,
-                        (short)(((GroundEnemy)(e)).X - level.XMap), 
-                        (short)(((GroundEnemy)(e)).Y - level.YMap),
-                        0, 0, GroundEnemy.SPRITE_WIDTH,
-                        GroundEnemy.SPRITE_HEIGHT);
-                    }
-                    else if(e is FlyingEnemy)
-                    {
-                        hardware.DrawSprite(FlyingEnemy.SpriteFlyingEnemy,
-                        (short)(e.X - level.XMap), (short)(e.Y - level.YMap),
-                        0, 0, FlyingEnemy.SPRITE_WIDTH,
-                        FlyingEnemy.SPRITE_HEIGHT);
-                    }
-                }*/
+                    level.Enemies[i].DrawEnemy(level);
+                }
 
                 // Updating the screen
                 hardware.UpdateScreen();
@@ -255,6 +241,7 @@ namespace TheLastJumper
                 // Move character and enemies
                 character.MoveCharacter();
 
+                Enemy.SetCharacter(character);
                 foreach(Enemy e in level.Enemies)
                 {
                     e.MoveEnemy();
