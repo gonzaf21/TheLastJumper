@@ -24,6 +24,7 @@ namespace TheLastJumper
             HitboxHeight = 50;
             HitboxWidth = 50;
             Collided = false;
+            IsDead = false;
 
             SpriteXCoordinates[(int)MovableSprite.SpriteMovement.LEFT] =
                 new int[] { 0, 60, 120, 180, 240, 300, 360, 420 };
@@ -35,7 +36,7 @@ namespace TheLastJumper
             SpriteYCoordinates[(int)MovableSprite.SpriteMovement.RIGHT] =
                 new int[] { 60, 60, 60, 60, 60, 60, 60, 60 };
 
-            UpdateSpriteCoordinates();
+            //UpdateSpriteCoordinates();
         }
 
         // The enemy is constantly patrolling an area

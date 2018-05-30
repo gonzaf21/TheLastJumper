@@ -1,5 +1,8 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.13: Some changes to draw the enemies and the collision of the character
+ * with them.
+ * 
  * V0.12: Added the call to the method to save the score and changed the
  * visibility of some attributes of this class.
  * 
@@ -55,7 +58,6 @@ namespace TheLastJumper
         protected bool gameOver;
         public static short numOfTheLevel;
         protected Image doorImg;
-        protected Image enemyImg;
         protected Image controls;
         public static int points;
         protected int time;
@@ -75,7 +77,6 @@ namespace TheLastJumper
             previousTime = 0;
             gameOver = false;
             doorImg = new Image("gameData/door.png", 200, 267);
-            enemyImg = new Image("gameData/enemyair.png", 600, 120);
             points = 0;
             time = 0;
             textTime = SdlTtf.TTF_RenderText_Solid(font18.GetFontType(),
@@ -149,17 +150,23 @@ namespace TheLastJumper
                 }
 
                 // Drawing the enemies
-                hardware.DrawSprite(enemyImg, (short)(400 - level.XMap),
-                    (short)(430 - level.YMap), 0, 0,
-                    60, 60);
-
-                hardware.DrawSprite(enemyImg, (short)(650 - level.XMap),
-                    (short)(800 - level.YMap), 0, 0,
-                    60, 60);
-
-                for(int i = 0; i < level.Enemies.Count; i++)
+                foreach (Enemy e in level.Enemies)
                 {
-                    level.Enemies[i].DrawEnemy(level);
+                    if (e is GroundEnemy)
+                    {
+                        hardware.DrawSprite(GroundEnemy.SpriteGroundEnemy,
+                        (short)(((GroundEnemy)(e)).X - level.XMap),
+                        (short)(((GroundEnemy)(e)).Y - level.YMap),
+                        0, 0, GroundEnemy.SPRITE_WIDTH,
+                        GroundEnemy.SPRITE_HEIGHT);
+                    }
+                    else if (e is FlyingEnemy)
+                    {
+                        hardware.DrawSprite(FlyingEnemy.SpriteFlyingEnemy,
+                        (short)(e.X - level.XMap), (short)(e.Y - level.YMap),
+                        0, 0, FlyingEnemy.SPRITE_WIDTH,
+                        FlyingEnemy.SPRITE_HEIGHT);
+                    }
                 }
 
                 // Updating the screen
@@ -218,8 +225,17 @@ namespace TheLastJumper
                     }
                 }
 
+                // Collision of enemies with the character
+                foreach (Enemy e in level.Enemies)
+                {
+                    if (e.CollidesWith(character.X, character.Y,
+                        Character.SPRITE_WIDTH, Character.SPRITE_HEIGHT))
+                        character.IsDead = true;
+                }
+                
+
                 // Traps that kill the character
-                foreach(Trap t in level.Traps)
+                foreach (Trap t in level.Traps)
                 {
                     if (character.CollidesWith(t.X, t.Y - t.HitboxHeight,
                         Trap.SPRITE_WIDTH, Trap.SPRITE_HEIGHT))
@@ -244,7 +260,7 @@ namespace TheLastJumper
                 Enemy.SetCharacter(character);
                 foreach(Enemy e in level.Enemies)
                 {
-                    e.MoveEnemy();
+                    //e.MoveEnemy();
                 }
 
                 // Set the value of the booleans of movement after collisions

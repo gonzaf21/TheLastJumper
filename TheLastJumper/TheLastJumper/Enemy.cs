@@ -14,8 +14,8 @@ namespace TheLastJumper
 {
     class Enemy : MovableSprite
     {
-        public const byte SPRITE_WIDTH = 50;
-        public const byte SPRITE_HEIGHT = 50;
+        public const byte SPRITE_WIDTH = 60;
+        public const byte SPRITE_HEIGHT = 60;
         public bool IsDead { get; set; }
         public bool Collided { get; set; }
         protected static Character character;

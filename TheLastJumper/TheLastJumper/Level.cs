@@ -135,20 +135,20 @@ namespace TheLastJumper
                                         new Collectible(i * Block.SPRITE_WIDTH,
                                         numHeight * Block.SPRITE_HEIGHT));
                                 }
-                                /*else if(elements[i] == "F")
+                                else if(elements[i] == "F")
                                 {
                                     Enemies.Add(new GroundEnemy(
-                                        (short)(i * Block.SPRITE_WIDTH), 
+                                        (short)(i * Enemy.SPRITE_WIDTH), 
                                         (short)(numHeight * 
                                         Block.SPRITE_HEIGHT)));
                                 }
                                 else if(elements[i] == "V")
                                 {
                                     Enemies.Add(new FlyingEnemy(
-                                        (short)(i * Block.SPRITE_WIDTH),
+                                        (short)(i * Enemy.SPRITE_WIDTH),
                                         (short)(numHeight *
                                         Block.SPRITE_HEIGHT)));
-                                }*/
+                                }
                                 numWidth++;
                             }
                             numHeight++;

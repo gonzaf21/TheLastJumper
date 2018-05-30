@@ -2,4 +2,5 @@ GMF;200;level1
 JFK;500;level2
 AMIGO;0;level0
 VICTOR;0;level0
-JKWR;100;level0
+PRIEST;0;level0
+TEST;0;level0
