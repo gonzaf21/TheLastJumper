@@ -66,7 +66,7 @@ namespace TheLastJumper
         public GameScreen(Hardware hardware, short numLevel) : base(hardware)
         {
             background = new Image("gameData/forestbg2x.png", 2553, 1487);
-            controls = new Image("gameData/controls.png", 256, 546);
+            controls = new Image("gameData/controls.png", 256, 1092);
             Level.SetLevels();
             numOfTheLevel = numLevel;
             level = new Level(Level.GetLevelName(numOfTheLevel));
@@ -114,7 +114,10 @@ namespace TheLastJumper
                     character.SpriteX, character.SpriteY, 
                     Character.SPRITE_WIDTH, Character.SPRITE_HEIGHT);
 
-                hardware.DrawSprite(controls, 540, 10, 0, 441, 256, 105);
+                if(Game.language == "eng")
+                    hardware.DrawSprite(controls, 540, 10, 0, 441, 256, 105);
+                else if(Game.language == "esp")
+                    hardware.DrawSprite(controls, 540, 10, 0, 986, 256, 105);
 
                 // Points and time
                 hardware.WriteTextRender(textPoints, 70, 10);
@@ -260,7 +263,7 @@ namespace TheLastJumper
                 Enemy.SetCharacter(character);
                 foreach(Enemy e in level.Enemies)
                 {
-                    //e.MoveEnemy();
+                    e.MoveEnemy();
                 }
 
                 // Set the value of the booleans of movement after collisions

@@ -46,13 +46,13 @@ namespace TheLastJumper
             short speedY = 2;
             short radius = 50;
             
-            do
+            if (!IsDead)
             {
-                while(!Collided)
+                if(!Collided)
                 {
                     if(character.X + radius >= X)
                     {
-                        while(X + SPRITE_WIDTH <= character.X)
+                        if(X + SPRITE_WIDTH <= character.X)
                         {
                             if (Y > character.Y)
                                 Y -= speedY;
@@ -64,7 +64,7 @@ namespace TheLastJumper
                     }
                     else if(character.X - radius <= X)
                     {
-                        while (X >= character.X + Character.SPRITE_WIDTH)
+                        if (X >= character.X + Character.SPRITE_WIDTH)
                         {
                             if (Y > character.Y)
                                 Y -= speedY;
@@ -75,7 +75,7 @@ namespace TheLastJumper
                         }
                     }
                 }
-            } while (!IsDead);
+            }
         }
 
         public override void DrawEnemy(Level l)

@@ -43,9 +43,10 @@ namespace TheLastJumper
         public override void MoveEnemy()
         {
             short speedX = 4;
-            do
+            
+            if (!IsDead)
             {
-                while(!Collided && speedX > 0)
+                if(!Collided && speedX > 0)
                 {
                     X += speedX;
                     Animate(MovableSprite.SpriteMovement.LEFT);
@@ -57,12 +58,12 @@ namespace TheLastJumper
                     Collided = false;
                 }
 
-                while(!Collided && speedX < 0)
+                if(!Collided && speedX < 0)
                 {
                     X += speedX;
                     Animate(SpriteMovement.RIGHT);
                 }            
-            } while (!IsDead);
+            }
         }
 
         public override void DrawEnemy(Level l)

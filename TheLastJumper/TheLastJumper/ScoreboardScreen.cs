@@ -1,5 +1,7 @@
 ﻿/* Gonzalo Martinez Font - The Last Jumper 2018
  * 
+ * V0.14: Added different languages.
+ * 
  * V0.13: Fixed some bugs and doing some changes in the methods.
  * 
  * V0.12: Added new methods to load, save and write the input of the name of 
@@ -41,7 +43,7 @@ namespace TheLastJumper
             font = new Font("gameData/AgencyFB.ttf", 70);
             fontSmall = new Font("gameData/AgencyFB.ttf", 30);
             imgScore = new Image("gameData/scoreImg.png", 800, 600);
-            controls = new Image("gameData/controls.png", 256, 546);
+            controls = new Image("gameData/controls.png", 256, 1092);
             info = new List<InfoPlayer>();
             LoadScore();
         }
@@ -51,9 +53,11 @@ namespace TheLastJumper
             int keyPressed;
             short count = 100;
             short[] posY = new short[info.Count];
+            string[] texts = { "SCORES", "---------", "PUNTUACIONES",
+                "-----------------"};
 
             // To set the Y coordinate for every line displayed
-            for(int i = 0; i < info.Count; i++)
+            for (int i = 0; i < info.Count; i++)
             {
                 posY[i] += count;
                 count += 40;
@@ -67,9 +71,7 @@ namespace TheLastJumper
 
                 hardware.DrawImage(imgScore);
                 hardware.DrawSprite(controls, 700, 540, 0, 115, 60, 50);
-
-                hardware.WriteText("SCORES", 320, 10, 255, 204, 0, font);
-                hardware.WriteText("---------", 320, 40, 255, 204, 0, font);
+                DrawTexts(Game.language, texts);
 
                 for(int i = 0; i < info.Count; i++)
                 {
@@ -212,10 +214,21 @@ namespace TheLastJumper
                 hardware.ClearScreen();
                 hardware.DrawImage(imgScore);
                 hardware.DrawSprite(controls, 650, 540, 105, 0, 150, 60);
-                hardware.WriteText("Enter your name:", 230, 10, 255, 204,
+                if(Game.language == "eng")
+                {
+                    hardware.WriteText("Enter your name:", 230, 10, 255, 204,
                     0, font);
-                hardware.WriteText("-------------------", 230, 40, 255, 204,
-                    0, font);
+                    hardware.WriteText("-------------------", 230, 40, 255, 
+                        204, 0, font);
+                }
+                else if(Game.language == "esp")
+                {
+                    hardware.WriteText("Introduce tu nombre:", 205, 10, 255, 
+                        204, 0, font);
+                    hardware.WriteText("------------------------", 205, 40, 
+                        255, 204, 0, font);
+                }
+                
                 hardware.WriteTextRender(input, 20, 120);
                 input = SdlTtf.TTF_RenderText_Solid(font.GetFontType(),
                 name, hardware.red);
@@ -341,6 +354,20 @@ namespace TheLastJumper
 
             // Calls the method to save the info
             SaveScore(allInfo);
+        }
+
+        public void DrawTexts(string l, string[] texts)
+        {
+            if (l == "eng")
+            {
+                hardware.WriteText(texts[0], 320, 10, 255, 204, 0, font);
+                hardware.WriteText(texts[1], 320, 40, 255, 204, 0, font);
+            }
+            else if (l == "esp")
+            {
+                hardware.WriteText(texts[2], 260, 10, 255, 204, 0, font);
+                hardware.WriteText(texts[3], 260, 40, 255, 204, 0, font);
+            }
         }
     }
 }

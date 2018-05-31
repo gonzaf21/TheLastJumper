@@ -33,7 +33,7 @@ namespace TheLastJumper
             font = new Font("gameData/AgencyFB.ttf", 50);
             levelsCleared = LoadSelectableLevels();
             imageBG = new Image("gameData/loadImg.png", 800, 600);
-            controls = new Image("gameData/controls.png", 256, 546);
+            controls = new Image("gameData/controls.png", 256, 1092);
             NumLevel = 0;
         }
 

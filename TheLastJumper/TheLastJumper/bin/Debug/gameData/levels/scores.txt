@@ -4,3 +4,5 @@ AMIGO;0;level0
 VICTOR;0;level0
 PRIEST;0;level0
 TEST;0;level0
+MIGUEL;0;level0
+GGGGGGGG;0;level0
