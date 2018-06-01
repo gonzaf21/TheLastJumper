@@ -114,20 +114,6 @@ namespace TheLastJumper
                     character.SpriteX, character.SpriteY, 
                     Character.SPRITE_WIDTH, Character.SPRITE_HEIGHT);
 
-                if(Game.language == "eng")
-                    hardware.DrawSprite(controls, 540, 10, 0, 441, 256, 105);
-                else if(Game.language == "esp")
-                    hardware.DrawSprite(controls, 540, 10, 0, 986, 256, 105);
-
-                // Points and time
-                hardware.WriteTextRender(textPoints, 70, 10);
-                hardware.WriteTextRender(textTime, 200, 10);
-
-                textTime = SdlTtf.TTF_RenderText_Solid(font18.GetFontType(),
-                    "TIME: " + time, hardware.red);
-                textPoints = SdlTtf.TTF_RenderText_Solid(font18.GetFontType(),
-                    "POINTS:" + points, hardware.red);
-
                 // Drawing the blocks, traps, collectibles and enemies 
                 // from the level.
                 foreach(Block b in level.Blocks)
@@ -172,6 +158,29 @@ namespace TheLastJumper
                     }
                 }
 
+                // Points and time
+                hardware.WriteTextRender(textPoints, 70, 10);
+                hardware.WriteTextRender(textTime, 200, 10);
+
+                if (Game.language == "eng")
+                {
+                    hardware.DrawSprite(controls, 540, 10, 0, 441, 256, 105);
+                    textTime = SdlTtf.TTF_RenderText_Solid(
+                        font18.GetFontType(), "TIME: " + time, hardware.red);
+                    textPoints = SdlTtf.TTF_RenderText_Solid(
+                        font18.GetFontType(), "POINTS:" + points,
+                        hardware.red);
+                }
+                else if (Game.language == "esp")
+                {
+                    hardware.DrawSprite(controls, 540, 10, 0, 986, 256, 105);
+                    textTime = SdlTtf.TTF_RenderText_Solid(
+                        font18.GetFontType(), "TIEMPO: " + time, hardware.red);
+                    textPoints = SdlTtf.TTF_RenderText_Solid(
+                        font18.GetFontType(), "PUNTOS:" + points,
+                        hardware.red);
+                }
+
                 // Updating the screen
                 hardware.UpdateScreen();
 
@@ -197,6 +206,7 @@ namespace TheLastJumper
                         }
                         else if(b.X < character.X)
                         {
+                            
                             character.IsMovingRight = true;
                             if(character.IsJumping)
                             {
@@ -241,7 +251,7 @@ namespace TheLastJumper
                 foreach (Trap t in level.Traps)
                 {
                     if (character.CollidesWith(t.X, t.Y - t.HitboxHeight,
-                        Trap.SPRITE_WIDTH, Trap.SPRITE_HEIGHT))
+                        t.HitboxWidth, t.HitboxHeight))
                         character.IsDead = true;
                 }
 
@@ -269,8 +279,7 @@ namespace TheLastJumper
                 // Set the value of the booleans of movement after collisions
                 character.IsMovingLeft = true;
                 character.IsMovingRight = true;
-                character.IsOver = false;
-
+                
                 // Character's death
                 if (character.IsDead)
                 {

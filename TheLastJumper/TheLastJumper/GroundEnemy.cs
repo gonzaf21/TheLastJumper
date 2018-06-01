@@ -49,20 +49,19 @@ namespace TheLastJumper
                 if(!Collided && speedX > 0)
                 {
                     X += speedX;
+                    Animate(MovableSprite.SpriteMovement.RIGHT);
+                }
+                else if (!Collided && speedX < 0)
+                {
+                    X += speedX;
                     Animate(MovableSprite.SpriteMovement.LEFT);
                 }
 
-                if(Collided && speedX > 0)
+                if (Collided)
                 {
                     speedX = (short)(-1 * speedX);
                     Collided = false;
                 }
-
-                if(!Collided && speedX < 0)
-                {
-                    X += speedX;
-                    Animate(SpriteMovement.RIGHT);
-                }            
             }
         }
 

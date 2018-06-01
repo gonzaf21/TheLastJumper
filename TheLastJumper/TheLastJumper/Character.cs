@@ -120,7 +120,9 @@ namespace TheLastJumper
                     (SPRITE_HEIGHT + Block.SPRITE_HEIGHT))
                 {
                     this.Y += SpeedY;
-                    if(upPressed)
+                    if (this.Y + GameController.SCREEN_HEIGHT / 2 > Level.YMap)
+                        Level.YMap += (short)(SpeedY / 10);
+                    if (upPressed)
                     {
                         IsJumping = true;
                         OnTheWall = false;
@@ -128,8 +130,8 @@ namespace TheLastJumper
                 }
                 else
                 {
-                    OnTheWall = false;
                     IsFalling = true;
+                    OnTheWall = false;
                 }
             }
 
@@ -176,7 +178,9 @@ namespace TheLastJumper
                     (SPRITE_HEIGHT + Block.SPRITE_HEIGHT))
                 {
                     this.Y += SpeedY;
-                    
+                    if (this.Y + GameController.SCREEN_HEIGHT / 2 > Level.YMap)
+                        Level.YMap += (short)SpeedY;
+
                     if (rightPressed && IsMovingRight)
                     {
                         SpeedX = STEP_LENGTH * (hardware.DeltaTime / 30) * 

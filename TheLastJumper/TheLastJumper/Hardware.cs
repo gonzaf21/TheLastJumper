@@ -53,6 +53,18 @@ namespace TheLastJumper
         public const int KEY_X = Sdl.SDLK_x;
         public const int KEY_Y = Sdl.SDLK_y;
         public const int KEY_Z = Sdl.SDLK_z;
+        public const int KEY_0 = Sdl.SDLK_0;
+        public const int KEY_1 = Sdl.SDLK_1;
+        public const int KEY_2 = Sdl.SDLK_2;
+        public const int KEY_3 = Sdl.SDLK_3;
+        public const int KEY_4 = Sdl.SDLK_4;
+        public const int KEY_5 = Sdl.SDLK_5;
+        public const int KEY_6 = Sdl.SDLK_6;
+        public const int KEY_7 = Sdl.SDLK_7;
+        public const int KEY_8 = Sdl.SDLK_8;
+        public const int KEY_9 = Sdl.SDLK_9;
+        public const int KEY_RET = Sdl.SDLK_BACKSLASH;
+
         public Sdl.SDL_Color white = new Sdl.SDL_Color(255, 255, 255);
         public Sdl.SDL_Color red = new Sdl.SDL_Color(204, 0, 0);
 

@@ -339,7 +339,51 @@ namespace TheLastJumper
                 {
                     name += "Z";
                 }
-                    
+                else if (keyPressed == Hardware.KEY_0)
+                {
+                    name += "0";
+                }
+                else if (keyPressed == Hardware.KEY_1)
+                {
+                    name += "1";
+                }
+                else if (keyPressed == Hardware.KEY_2)
+                {
+                    name += "2";
+                }
+                else if (keyPressed == Hardware.KEY_3)
+                {
+                    name += "3";
+                }
+                else if (keyPressed == Hardware.KEY_4)
+                {
+                    name += "4";
+                }
+                else if (keyPressed == Hardware.KEY_5)
+                {
+                    name += "5";
+                }
+                else if (keyPressed == Hardware.KEY_6)
+                {
+                    name += "6";
+                }
+                else if (keyPressed == Hardware.KEY_7)
+                {
+                    name += "7";
+                }
+                else if (keyPressed == Hardware.KEY_8)
+                {
+                    name += "8";
+                }
+                else if (keyPressed == Hardware.KEY_9)
+                {
+                    name += "9";
+                }
+                else if (keyPressed == Hardware.KEY_RET)
+                {
+                    name = name.Substring(0, name.Length - 2);
+                }
+
                 hardware.UpdateScreen();
 
             } while (keyPressed != Hardware.KEY_SPACE);
